@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PBMC Demo — OmicsAgent.ai</title>
+<title>PBMC Multi-omics Demo — OmicsAgent.ai</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#060c1a;color:#e2e8f0;font-family:'Segoe UI',Arial,sans-serif;line-height:1.7;display:flex;min-height:100vh}
@@ -14,18 +14,36 @@ a{color:#22d3ee;text-decoration:none}a:hover{text-decoration:underline}
 .sidebar-link{display:block;padding:0.35rem 1.2rem;font-size:0.82rem;color:#94a3b8;border-left:2px solid transparent}
 .sidebar-link:hover{color:#e2e8f0;background:rgba(255,255,255,0.03);text-decoration:none}
 .sidebar-link.active{color:#22d3ee;border-left-color:#22d3ee;background:rgba(34,211,238,0.07)}
-.main{margin-left:240px;flex:1;padding:2.5rem 3rem;max-width:820px}
+.main{margin-left:240px;flex:1;padding:2.5rem 3rem;max-width:860px}
 .crumb{font-size:0.77rem;color:#475569;margin-bottom:1.2rem}
-.crumb a{color:#475569}.crumb a:hover{color:#e2e8f0}
+.crumb a{color:#475569}
 h1{font-size:1.8rem;font-weight:800;margin-bottom:0.7rem}
 h2{font-size:1.2rem;font-weight:700;margin:1.8rem 0 0.7rem;padding-bottom:0.35rem;border-bottom:1px solid #1e3a5f}
+h3{font-size:1rem;font-weight:700;margin:1.2rem 0 0.4rem;color:#22d3ee}
 p{margin-bottom:0.9rem;font-size:0.95rem}
 pre{background:#020810;border:1px solid #1e3a5f;border-radius:8px;padding:1rem 1.2rem;font-family:monospace;font-size:0.82rem;overflow-x:auto;line-height:1.9;margin:0.8rem 0;color:#e2e8f0}
 code{font-family:monospace;font-size:0.82em;background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.2);padding:0.1em 0.4em;border-radius:4px;color:#67e8f9}
+.note{background:rgba(34,211,238,0.07);border-left:3px solid #22d3ee;border-radius:0 8px 8px 0;padding:0.8rem 1rem;margin:1rem 0;font-size:0.88rem}
 .tip{background:rgba(16,185,129,0.07);border-left:3px solid #10b981;border-radius:0 8px 8px 0;padding:0.8rem 1rem;margin:1rem 0;font-size:0.88rem}
+.warn{background:rgba(245,158,11,0.07);border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;padding:0.8rem 1rem;margin:1rem 0;font-size:0.88rem}
 table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.88rem}
 th{background:#0a1222;padding:0.6rem 0.9rem;text-align:left;font-size:0.75rem;font-weight:600;color:#94a3b8;border-bottom:2px solid #1e3a5f}
 td{padding:0.6rem 0.9rem;border-bottom:1px solid #1e3a5f}
+tr:hover td{background:rgba(255,255,255,0.02)}
+ul,ol{padding-left:1.4rem;margin-bottom:0.9rem}li{margin-bottom:0.4rem;font-size:0.95rem}
+.data-card{background:#0f1e35;border:1px solid #1e3a5f;border-radius:12px;padding:1.3rem;margin-bottom:1rem}
+.data-card h3{margin:0 0 0.4rem;font-size:0.95rem;font-weight:700;color:#e2e8f0}
+.data-card .meta{font-size:0.8rem;color:#475569;margin-bottom:0.7rem}
+.data-card p{font-size:0.84rem;color:#94a3b8;margin-bottom:0.8rem}
+.data-links{display:flex;flex-wrap:wrap;gap:0.5rem}
+.dl-btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.35rem 0.9rem;border-radius:6px;font-size:0.8rem;font-weight:600;border:1px solid #22d3ee;color:#22d3ee;transition:all 0.2s}
+.dl-btn:hover{background:#22d3ee;color:#060c1a;text-decoration:none}
+.dl-btn.secondary{border-color:#1e3a5f;color:#94a3b8}
+.dl-btn.secondary:hover{border-color:#22d3ee;color:#22d3ee;background:transparent}
+.badge{display:inline-block;font-size:0.68rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:4px;text-transform:uppercase;margin-left:0.4rem;vertical-align:middle}
+.b-free{background:rgba(16,185,129,0.15);color:#34d399}
+.b-pub{background:rgba(99,102,241,0.15);color:#a5b4fc}
+.b-size{background:rgba(245,158,11,0.15);color:#fbbf24}
 .pgn{display:flex;justify-content:space-between;margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid #1e3a5f}
 .nb{display:inline-flex;align-items:center;gap:0.4rem;padding:0.45rem 0.9rem;border:1px solid #1e3a5f;border-radius:6px;font-size:0.82rem;color:#94a3b8}
 .nb:hover{border-color:#22d3ee;color:#22d3ee;text-decoration:none}
@@ -57,52 +75,190 @@ td{padding:0.6rem 0.9rem;border-bottom:1px solid #1e3a5f}
 <main class="main">
 <div class="crumb"><a href="../index.html">Home</a> › Tutorials › PBMC Demo</div>
 <h1>PBMC Multi-omics Demo</h1>
-<p>Run all 15 skills on realistic PBMC data comparing Healthy vs Sepsis donors — the gold-standard benchmark for single-cell and multi-omics analysis.</p>
+<p>Run all 15 skills on PBMC data — the gold-standard benchmark for single-cell and multi-omics analysis. Choose between our built-in synthetic demo data or real publicly available datasets.</p>
 
-<h2>Step 1 — Generate demo data</h2>
+<div class="note">💡 <strong>Two options:</strong> Use our built-in synthetic data (no download needed, works immediately) or download real published PBMC datasets from the links below.</div>
+
+<!-- ── OPTION 1: SYNTHETIC ── -->
+<h2>Option 1 — Built-in Synthetic Demo (recommended to start)</h2>
+<p>No download needed. Generates realistic PBMC data in seconds based on published marker gene profiles.</p>
 <pre>python3 data/pbmc_demo_generator.py
 
-# Creates 8 synthetic PBMC data layers:
-  scRNA-seq:      3,000 cells x 2,000 genes
-  Bulk RNA-seq:   12 donors (Healthy vs Sepsis)
-  ATAC-seq:       2,000 cells x 5,000 peaks
-  Proteomics:     300 proteins x 12 donors
-  Metabolomics:   250 features x 12 donors
-  CITE-seq ADT:   1,000 cells x 25 proteins
-  Metagenomics:   20 gut microbiome samples
-  Genomics:       500 variants + pharmacogenomics</pre>
+# Creates 8 synthetic PBMC layers instantly:
+  scRNA-seq:     3,000 cells x 2,000 genes (10 cell types)
+  Bulk RNA-seq:  12 donors — Healthy vs Sepsis
+  ATAC-seq:      2,000 cells x 5,000 peaks
+  Proteomics:    300 plasma proteins x 12 donors
+  Metabolomics:  250 serum features x 12 donors
+  CITE-seq ADT:  1,000 cells x 25 surface proteins
+  Metagenomics:  20 gut microbiome samples
+  Genomics:      500 variants + 8 pharmacogenomic loci
 
-<h2>Step 2 — Run all 15 skills</h2>
-<pre>python3 omics_agent.py --demo --output output/pbmc_results
+python3 omics_agent.py --demo</pre>
 
-# Expected (~80 seconds):
-  Genomics (WGS/WES/SNP)                        done
-  scRNA-seq (Single-cell)                        done
-  scATAC-seq (ChromVAR / LSI)                    done
-  Spatial (Visium/MERFISH/CosMx/Stereo-seq)      done
-  scTCR/BCR-seq (Immune Repertoire)              done
-  ... 10 more skills ...
-15/15 skills completed. 50 figures. 27 tables. 79s</pre>
+<!-- ── OPTION 2: REAL DATA ── -->
+<h2>Option 2 — Real Published PBMC Datasets</h2>
+<p>Download these free, publicly available datasets and run OmicsAgent on real data.</p>
 
-<h2>Biological findings across layers</h2>
+<h3>scRNA-seq</h3>
+
+<div class="data-card">
+  <h3>10x PBMC 3k <span class="badge b-free">Free</span><span class="badge b-pub">Published</span><span class="badge b-size">~50 MB</span></h3>
+  <div class="meta">3,000 PBMCs from a Healthy Donor · 10x Genomics Chromium · hg19</div>
+  <p>The most widely used single-cell benchmark dataset. 2,700 cells after QC, 8 cell types. Used in Seurat and Scanpy tutorials worldwide.</p>
+  <div class="data-links">
+    <a class="dl-btn" href="https://cf.10xgenomics.com/samples/cell-exp/1.1.0/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz">⬇ Download (filtered matrix)</a>
+    <a class="dl-btn secondary" href="https://www.10xgenomics.com/datasets/3-k-pbm-cs-from-a-healthy-donor-1-standard-1-1-0">10x Dataset Page</a>
+    <a class="dl-btn secondary" href="https://scanpy-tutorials.readthedocs.io/en/latest/pbmc3k.html">Scanpy Tutorial</a>
+  </div>
+</div>
+
+<div class="data-card">
+  <h3>10x PBMC 68k <span class="badge b-free">Free</span><span class="badge b-pub">Published</span><span class="badge b-size">~1.2 GB</span></h3>
+  <div class="meta">68,000 PBMCs from a Healthy Donor · 10x Genomics · hg19</div>
+  <p>Large-scale PBMC dataset used in the original Cell Ranger paper. Ideal for testing scalability and rare cell type detection.</p>
+  <div class="data-links">
+    <a class="dl-btn" href="https://cf.10xgenomics.com/samples/cell-exp/1.1.0/fresh_68k_pbmc_donor_a/fresh_68k_pbmc_donor_a_filtered_gene_bc_matrices.tar.gz">⬇ Download (filtered matrix)</a>
+    <a class="dl-btn secondary" href="https://www.10xgenomics.com/datasets/fresh-68-k-pbm-cs-donor-a-1-standard-1-1-0">10x Dataset Page</a>
+  </div>
+</div>
+
+<div class="data-card">
+  <h3>Human Cell Atlas — PBMC <span class="badge b-free">Free</span><span class="badge b-pub">Published</span><span class="badge b-size">~500 MB</span></h3>
+  <div class="meta">Pan et al. 2018 · Multiple donors · Multiple conditions</div>
+  <p>Multi-donor PBMC atlas with healthy and disease conditions. Good for batch correction and donor variability analysis.</p>
+  <div class="data-links">
+    <a class="dl-btn" href="https://cellxgene.cziscience.com/collections/dde06e0f-ab3b-46be-96a2-a8082383c4a1">⬇ CellxGene Portal</a>
+    <a class="dl-btn secondary" href="https://www.humancellatlas.org/learn-more/human-cell-atlas-data-portal/">HCA Data Portal</a>
+  </div>
+</div>
+
+<h3>scATAC-seq</h3>
+
+<div class="data-card">
+  <h3>10x PBMC scATAC 5k <span class="badge b-free">Free</span><span class="badge b-pub">Published</span><span class="badge b-size">~200 MB</span></h3>
+  <div class="meta">5,000 PBMCs · 10x Genomics Chromium ATAC · hg38</div>
+  <p>Standard scATAC-seq PBMC benchmark. Includes fragments file, peak matrix, and per-barcode summary. Used in ArchR and Signac tutorials.</p>
+  <div class="data-links">
+    <a class="dl-btn" href="https://cf.10xgenomics.com/samples/cell-atac/2.0.0/atac_pbmc_5k_nextgem/atac_pbmc_5k_nextgem_filtered_peak_bc_matrix.h5">⬇ Peak matrix (h5)</a>
+    <a class="dl-btn" href="https://cf.10xgenomics.com/samples/cell-atac/2.0.0/atac_pbmc_5k_nextgem/atac_pbmc_5k_nextgem_fragments.tsv.gz">⬇ Fragments file</a>
+    <a class="dl-btn secondary" href="https://www.10xgenomics.com/datasets/5-k-peripheral-blood-mononuclear-cells-pbm-cs-from-a-healthy-donor-next-gem-v-1-1-1-1-standard-2-0-0">10x Dataset Page</a>
+  </div>
+</div>
+
+<h3>CITE-seq (RNA + Surface Proteins)</h3>
+
+<div class="data-card">
+  <h3>10x PBMC 10k Multiome CITE-seq <span class="badge b-free">Free</span><span class="badge b-pub">Published</span><span class="badge b-size">~800 MB</span></h3>
+  <div class="meta">10,000 PBMCs · RNA + 17 antibodies (ADT) · 10x Genomics</div>
+  <p>Simultaneous RNA and surface protein measurement. Includes CD3, CD4, CD8, CD14, CD19, CD56, PD-1, and more. Ideal for WNN analysis.</p>
+  <div class="data-links">
+    <a class="dl-btn" href="https://cf.10xgenomics.com/samples/cell-exp/6.0.0/10k_PBMCs_TotalSeq_B_3p/10k_PBMCs_TotalSeq_B_3p_filtered_feature_bc_matrix.h5">⬇ Feature matrix (h5)</a>
+    <a class="dl-btn secondary" href="https://www.10xgenomics.com/datasets/10-k-human-pbm-cs-with-total-seq-b-antibodies-3-lt-v-3-1-chromium-x-1-standard-6-0-0">10x Dataset Page</a>
+  </div>
+</div>
+
+<h3>Spatial Transcriptomics</h3>
+
+<div class="data-card">
+  <h3>10x Visium Human Lymph Node <span class="badge b-free">Free</span><span class="badge b-pub">Published</span><span class="badge b-size">~350 MB</span></h3>
+  <div class="meta">4,035 spots · ~17k genes · Human lymph node section · hg38</div>
+  <p>The most widely used Visium benchmark. Includes H&amp;E image, spot coordinates, and gene expression matrix. Germinal centers and T cell zones clearly resolved.</p>
+  <div class="data-links">
+    <a class="dl-btn" href="https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Lymph_Node/V1_Human_Lymph_Node_filtered_feature_bc_matrix.h5">⬇ Gene matrix (h5)</a>
+    <a class="dl-btn" href="https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Lymph_Node/V1_Human_Lymph_Node_spatial.tar.gz">⬇ Spatial files</a>
+    <a class="dl-btn secondary" href="https://www.10xgenomics.com/datasets/human-lymph-node-1-standard-1-1-0">10x Dataset Page</a>
+  </div>
+</div>
+
+<div class="data-card">
+  <h3>10x Visium Human PBMC <span class="badge b-free">Free</span><span class="badge b-pub">Published</span><span class="badge b-size">~280 MB</span></h3>
+  <div class="meta">2,646 spots · ~17k genes · Human PBMC smear · hg38</div>
+  <p>Spatial transcriptomics of PBMCs directly. Useful for matching spatial and scRNA-seq data from the same cell type.</p>
+  <div class="data-links">
+    <a class="dl-btn" href="https://www.10xgenomics.com/datasets/human-peripheral-blood-mononuclear-cells-pbm-cs-1-standard-1-3-0">⬇ 10x Dataset Page</a>
+  </div>
+</div>
+
+<h3>Multi-omics Integration</h3>
+
+<div class="data-card">
+  <h3>10x Multiome PBMC (RNA + ATAC) <span class="badge b-free">Free</span><span class="badge b-pub">Published</span><span class="badge b-size">~1.5 GB</span></h3>
+  <div class="meta">10,000 PBMCs · Simultaneous RNA-seq + ATAC-seq · hg38</div>
+  <p>The gold standard for multi-omics integration. Same cells profiled for gene expression AND chromatin accessibility simultaneously. Perfect for WNN and MOFA+ tutorials.</p>
+  <div class="data-links">
+    <a class="dl-btn" href="https://cf.10xgenomics.com/samples/cell-arc/2.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5">⬇ RNA matrix (h5)</a>
+    <a class="dl-btn" href="https://cf.10xgenomics.com/samples/cell-arc/2.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz">⬇ ATAC fragments</a>
+    <a class="dl-btn secondary" href="https://www.10xgenomics.com/datasets/pbmc-from-a-healthy-donor-granulocytes-removed-through-cell-sorting-10-k-1-standard-2-0-0">10x Dataset Page</a>
+  </div>
+</div>
+
+<h3>Gut Metagenomics</h3>
+
+<div class="data-card">
+  <h3>HMP2 — Human Microbiome Project 2 <span class="badge b-free">Free</span><span class="badge b-pub">Published</span><span class="badge b-size">Varies</span></h3>
+  <div class="meta">Lloyd-Price et al. Nature 2019 · IBD vs Healthy · Multi-omics</div>
+  <p>The largest published multi-omics gut microbiome study. Includes metagenomics, metatranscriptomics, metabolomics, and proteomics from IBD patients and healthy controls.</p>
+  <div class="data-links">
+    <a class="dl-btn" href="https://ibdmdb.org">⬇ IBDMDB Portal</a>
+    <a class="dl-btn secondary" href="https://www.nature.com/articles/s41586-019-1237-9">Nature Paper</a>
+  </div>
+</div>
+
+<!-- ── HOW TO USE REAL DATA ── -->
+<h2>How to Use Real Data with OmicsAgent.ai</h2>
+
+<h3>scRNA-seq (10x PBMC 3k)</h3>
+<pre># 1. Download and extract
+wget https://cf.10xgenomics.com/samples/cell-exp/1.1.0/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz
+tar -xzf pbmc3k_filtered_gene_bc_matrices.tar.gz
+
+# 2. Run via chat mode
+python3 omics_agent.py --chat
+You: Run scRNA-seq QC, normalization, clustering and cell type
+     annotation on my 10x PBMC data at
+     filtered_gene_bc_matrices/hg19/</pre>
+
+<h3>Visium Spatial (Human Lymph Node)</h3>
+<pre># 1. Download matrix and spatial files
+wget https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Lymph_Node/V1_Human_Lymph_Node_filtered_feature_bc_matrix.h5
+wget https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Lymph_Node/V1_Human_Lymph_Node_spatial.tar.gz
+tar -xzf V1_Human_Lymph_Node_spatial.tar.gz
+
+# 2. Run spatial analysis
+python3 omics_agent.py --chat
+You: Analyze my Visium human lymph node data, find spatially
+     variable genes, and identify tissue domains</pre>
+
+<h3>Multiome RNA+ATAC Integration</h3>
+<pre># 1. Download both modalities
+wget https://cf.10xgenomics.com/samples/cell-arc/2.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_filtered_feature_bc_matrix.h5
+wget https://cf.10xgenomics.com/samples/cell-arc/2.0.0/pbmc_granulocyte_sorted_10k/pbmc_granulocyte_sorted_10k_atac_fragments.tsv.gz
+
+# 2. Run integration
+python3 omics_agent.py --chat
+You: Run multi-omics integration on my 10x Multiome PBMC data
+     combining RNA and ATAC modalities with WNN and MOFA+</pre>
+
+<!-- ── RESULTS SUMMARY ── -->
+<h2>Expected Results — Biological Findings</h2>
 <table>
-<thead><tr><th>Layer</th><th>Key Sepsis Signature</th></tr></thead>
+<thead><tr><th>Skill</th><th>Dataset</th><th>Key Finding</th></tr></thead>
 <tbody>
-<tr><td>scRNA-seq</td><td>Monocytes expand; CD4 T and Treg depleted</td></tr>
-<tr><td>scATAC-seq</td><td>SPI1/CEBPA open chromatin in Monocytes; TOX marks Exhausted CD8 T</td></tr>
-<tr><td>Bulk RNA</td><td>S100A8/S100A9 up 5x; TCF7/LEF1 down 4x</td></tr>
-<tr><td>Spatial</td><td>BCL6/AID in Germinal Center; COL1A1 in Capsule</td></tr>
-<tr><td>Proteomics</td><td>CRP/IL6/MMP9 up; ALB/APOA1 down</td></tr>
-<tr><td>Metabolomics</td><td>Lactate/Kynurenine up; Glutamine/NAD+ down</td></tr>
-<tr><td>scTCR/BCR</td><td>TCR clonal expansion 3x; BCR SHM elevated</td></tr>
-<tr><td>Metagenomics</td><td>Faecalibacterium depleted; Shannon diversity reduced</td></tr>
-</tbody></table>
+<tr><td>scRNA-seq</td><td>PBMC 3k/68k</td><td>10 cell types: CD4 T, CD8 T, NK, B, Mono Classical, Mono Non-classical, mDC, Plasmablast, Treg, Exhausted CD8 T</td></tr>
+<tr><td>scATAC-seq</td><td>PBMC 5k ATAC</td><td>SPI1/CEBPA motifs drive Monocyte chromatin; TOX/NR4A1 mark Exhausted CD8 T cells</td></tr>
+<tr><td>CITE-seq</td><td>PBMC 10k TotalSeq</td><td>CD14+/HLA-DR+ marks Classical Monocytes; PD-1/LAG-3/TIM-3 co-express on Exhausted CD8 T</td></tr>
+<tr><td>Spatial</td><td>Visium Lymph Node</td><td>BCL6/AID in Germinal Center; COL1A1 in Capsule; CCR7/CCL19 in T cell zone</td></tr>
+<tr><td>Integration</td><td>10x Multiome</td><td>RNA-ATAC WNN reveals regulatory programs invisible to either modality alone</td></tr>
+<tr><td>Metagenomics</td><td>HMP2/IBD</td><td>Faecalibacterium prausnitzii depleted in IBD; Ruminococcus gnavus expanded</td></tr>
+</tbody>
+</table>
 
-<div class="tip">Every skill produces a reproducibility bundle: report.md + figures/ + tables/ + commands.sh + environment.yml + checksums.sha256</div>
+<div class="tip">✓ <strong>Reproducibility:</strong> Every analysis exports commands.sh + environment.yml + checksums.sha256. Run <code>sha256sum -c checksums.sha256</code> to verify results are identical.</div>
 
 <div class="pgn">
   <a class="nb" href="setup.html">← Installation</a>
-  <a class="nb" href="scrna.html">Next: scRNA-seq →</a>
+  <a class="nb" href="scrna.html">Next: scRNA-seq Tutorial →</a>
 </div>
 </main>
 </body>
