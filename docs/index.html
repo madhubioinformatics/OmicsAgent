@@ -3,760 +3,268 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OmicsAgent — Multi-Omics AI Agent for Bioinformatics</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>OmicsAgent.ai — The Complete Multi-Omics AI Agent</title>
 <style>
-:root {
-  --bg:       #0a0e1a;
-  --bg2:      #0f1525;
-  --bg3:      #141b2e;
-  --card:     #161e33;
-  --border:   #1e2a45;
-  --border2:  #243050;
-  --accent:   #3b82f6;
-  --accent2:  #6366f1;
-  --accent3:  #10b981;
-  --amber:    #f59e0b;
-  --pink:     #ec4899;
-  --text:     #e2e8f0;
-  --text2:    #94a3b8;
-  --text3:    #64748b;
-  --mono:     'JetBrains Mono', monospace;
-  --sans:     'Inter', sans-serif;
-}
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
-
-/* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,14,26,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem}
-.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
-.nav-logo{font-family:var(--mono);font-weight:600;font-size:1.1rem;color:var(--accent);letter-spacing:-0.02em;text-decoration:none}
-.nav-logo span{color:var(--text2)}
+body{background:#060c1a;color:#e2e8f0;font-family:'Segoe UI',Arial,sans-serif;line-height:1.6}
+a{color:#22d3ee;text-decoration:none}
+a:hover{text-decoration:underline}
+nav{background:#0a1628;border-bottom:1px solid #1e3a5f;padding:0 2rem;position:sticky;top:0;z-index:100}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:58px}
+.nav-logo{font-size:1.1rem;font-weight:700;color:#22d3ee}
+.nav-logo span{color:#94a3b8;font-weight:400}
 .nav-links{display:flex;gap:1.8rem;list-style:none}
-.nav-links a{color:var(--text2);text-decoration:none;font-size:0.875rem;font-weight:500;transition:color .2s}
-.nav-links a:hover{color:var(--text)}
-.nav-cta{background:var(--accent);color:#fff;padding:0.45rem 1.1rem;border-radius:6px;font-size:0.85rem;font-weight:600;text-decoration:none;transition:opacity .2s}
-.nav-cta:hover{opacity:0.85}
-
-/* ── HERO ── */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6rem 2rem 4rem;text-align:center;position:relative;overflow:hidden}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:0.25;pointer-events:none}
-.hero-glow{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(59,130,246,.18) 0%,transparent 70%);pointer-events:none}
-.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);color:var(--accent);padding:0.35rem 1rem;border-radius:100px;font-size:0.78rem;font-weight:600;letter-spacing:0.05em;margin-bottom:1.8rem;text-transform:uppercase}
-.hero-badge::before{content:'●';animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;line-height:1.1;letter-spacing:-0.03em;margin-bottom:1.5rem}
-h1 .grad{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--accent3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:1.15rem;color:var(--text2);max-width:640px;margin:0 auto 2.5rem;font-weight:400}
-.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:3.5rem}
-.btn{padding:.7rem 1.6rem;border-radius:8px;font-size:.9rem;font-weight:600;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem}
-.btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 20px rgba(59,130,246,.35)}
-.btn-primary:hover{background:#2563eb;transform:translateY(-1px)}
-.btn-secondary{background:var(--card);color:var(--text);border:1px solid var(--border2)}
-.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
-.btn-ghost{color:var(--text2);border:1px solid var(--border)}
-.btn-ghost:hover{color:var(--text);border-color:var(--border2)}
-.hero-stats{display:flex;gap:3rem;justify-content:center;flex-wrap:wrap}
-.stat{text-align:center}
-.stat-n{font-size:2rem;font-weight:800;color:var(--text);font-family:var(--mono)}
-.stat-l{font-size:.78rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem}
-
-/* ── TERMINAL ── */
-.terminal-section{padding:5rem 2rem;background:var(--bg2)}
-.terminal-wrap{max-width:860px;margin:0 auto}
-.section-label{font-size:.75rem;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.8rem}
-.section-title{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:1rem}
-.section-sub{color:var(--text2);font-size:1rem;margin-bottom:2.5rem;max-width:560px}
-.terminal{background:#0d1117;border:1px solid var(--border);border-radius:12px;overflow:hidden;font-family:var(--mono);font-size:.82rem}
-.term-bar{background:#161b22;border-bottom:1px solid var(--border);padding:.6rem 1rem;display:flex;align-items:center;gap:.5rem}
-.dot{width:12px;height:12px;border-radius:50%}
-.dot.r{background:#ff5f56}.dot.y{background:#ffbd2e}.dot.g{background:#27c93f}
-.term-title{color:var(--text3);font-size:.75rem;margin-left:.5rem}
-.term-body{padding:1.4rem 1.6rem;line-height:1.9}
-.term-comment{color:#6e7681}
-.term-prompt{color:var(--accent3)}
-.term-cmd{color:var(--text)}
-.term-out{color:#79c0ff}
-.term-ok{color:var(--accent3)}
-.term-warn{color:var(--amber)}
-.term-dim{color:var(--text3)}
-.term-line{display:block;margin:.1rem 0}
-
-/* ── SKILLS GRID ── */
-.skills-section{padding:5rem 2rem}
-.container{max-width:1200px;margin:0 auto}
-.skills-header{text-align:center;margin-bottom:3.5rem}
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem}
-.skill-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.4rem;transition:all .2s;position:relative;overflow:hidden}
-.skill-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(59,130,246,.04) 0%,transparent 60%);pointer-events:none}
-.skill-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
-.skill-icon{font-size:1.4rem;margin-bottom:.8rem}
-.skill-name{font-size:.95rem;font-weight:700;margin-bottom:.3rem;font-family:var(--mono)}
-.skill-desc{font-size:.82rem;color:var(--text2);margin-bottom:.9rem;line-height:1.5}
-.skill-tags{display:flex;flex-wrap:wrap;gap:.4rem}
-.tag{font-size:.7rem;padding:.2rem .6rem;border-radius:4px;font-family:var(--mono);font-weight:500}
-.tag-blue{background:rgba(59,130,246,.12);color:#60a5fa;border:1px solid rgba(59,130,246,.2)}
-.tag-green{background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.2)}
-.tag-purple{background:rgba(99,102,241,.12);color:#a5b4fc;border:1px solid rgba(99,102,241,.2)}
-.tag-amber{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.2)}
-.tag-pink{background:rgba(236,72,153,.12);color:#f472b6;border:1px solid rgba(236,72,153,.2)}
-.skill-new{position:absolute;top:.8rem;right:.8rem;background:var(--accent3);color:#fff;font-size:.62rem;font-weight:700;padding:.15rem .5rem;border-radius:4px;letter-spacing:.06em;text-transform:uppercase}
-
-/* ── INSTALL ── */
-.install-section{padding:5rem 2rem;background:var(--bg2)}
-.install-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:1100px;margin:0 auto}
-@media(max-width:768px){.install-grid{grid-template-columns:1fr}}
-.install-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.6rem}
-.install-card h3{font-size:1rem;font-weight:700;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
-.install-card .step-num{background:var(--accent);color:#fff;font-size:.72rem;font-weight:700;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono)}
-.install-card p{font-size:.85rem;color:var(--text2);margin-bottom:1rem}
-.code-block{background:#0d1117;border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;font-family:var(--mono);font-size:.8rem;line-height:2;position:relative;overflow-x:auto}
-.code-block .comment{color:#6e7681}
-.code-block .cmd{color:var(--text)}
-.code-block .out{color:#79c0ff}
-.copy-btn{position:absolute;top:.6rem;right:.6rem;background:var(--border2);border:none;color:var(--text2);padding:.25rem .6rem;border-radius:4px;font-size:.7rem;cursor:pointer;font-family:var(--sans);transition:all .2s}
-.copy-btn:hover{background:var(--accent);color:#fff}
-
-/* ── REQUIREMENTS TABLE ── */
-.req-section{padding:5rem 2rem}
-.req-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;max-width:1100px;margin:2rem auto 0}
-.req-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem}
-.req-card h4{font-size:.85rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.8rem}
-.req-item{display:flex;justify-content:space-between;align-items:center;padding:.3rem 0;border-bottom:1px solid var(--border);font-size:.82rem}
-.req-item:last-child{border:none}
-.req-name{color:var(--text);font-family:var(--mono)}
-.req-ver{color:var(--accent3);font-family:var(--mono);font-size:.75rem}
-
-/* ── TUTORIALS ── */
-.tut-section{padding:5rem 2rem;background:var(--bg2)}
-.tut-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;max-width:1100px;margin:2.5rem auto 0}
-.tut-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.4rem;text-decoration:none;color:inherit;transition:all .2s;display:block}
-.tut-card:hover{border-color:var(--accent);transform:translateY(-2px)}
-.tut-meta{display:flex;gap:.6rem;margin-bottom:.8rem;align-items:center}
-.tut-level{font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:4px;text-transform:uppercase;letter-spacing:.05em}
-.level-beginner{background:rgba(16,185,129,.12);color:#34d399}
-.level-intermediate{background:rgba(59,130,246,.12);color:#60a5fa}
-.level-advanced{background:rgba(236,72,153,.12);color:#f472b6}
-.tut-time{font-size:.72rem;color:var(--text3);display:flex;align-items:center;gap:.3rem}
-.tut-card h3{font-size:.95rem;font-weight:700;margin-bottom:.4rem}
-.tut-card p{font-size:.82rem;color:var(--text2);line-height:1.5}
-.tut-arrow{margin-top:.8rem;color:var(--accent);font-size:.85rem;font-weight:600}
-
-/* ── PLATFORMS ── */
-.platform-section{padding:5rem 2rem}
-.platform-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:1100px;margin:2.5rem auto 0}
-@media(max-width:900px){.platform-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:500px){.platform-grid{grid-template-columns:1fr}}
-.platform-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;text-align:center;transition:all .2s}
-.platform-card:hover{border-color:var(--border2)}
-.platform-icon{font-size:2rem;margin-bottom:.6rem}
-.platform-name{font-size:.88rem;font-weight:700;margin-bottom:.3rem}
-.platform-detail{font-size:.75rem;color:var(--text3);line-height:1.4}
-
-/* ── COMPARISON ── */
-.compare-section{padding:5rem 2rem;background:var(--bg2)}
-.compare-table{max-width:900px;margin:2.5rem auto 0;border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.compare-table table{width:100%;border-collapse:collapse}
-.compare-table th{background:var(--bg3);padding:.9rem 1.2rem;font-size:.78rem;font-weight:600;color:var(--text2);text-align:left;letter-spacing:.04em;border-bottom:1px solid var(--border)}
-.compare-table th:not(:first-child){text-align:center}
-.compare-table td{padding:.8rem 1.2rem;font-size:.83rem;border-bottom:1px solid var(--border)}
-.compare-table tr:last-child td{border:none}
-.compare-table td:not(:first-child){text-align:center}
-.compare-table tr:hover td{background:rgba(255,255,255,.02)}
-.check{color:var(--accent3);font-size:1rem}
-.cross{color:var(--text3);font-size:1rem}
-.partial{color:var(--amber)}
-.highlight-col{background:rgba(59,130,246,.04)}
-
-/* ── WORKFLOW ── */
-.workflow-section{padding:5rem 2rem}
-.workflow-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;max-width:1100px;margin:2.5rem auto 0;position:relative}
-.workflow-steps::before{content:'';position:absolute;top:2.2rem;left:10%;right:10%;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));opacity:.3;z-index:0}
-.workflow-step{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.4rem;text-align:center;position:relative;z-index:1;margin:0 .5rem}
-.step-circle{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:.9rem;margin:0 auto 1rem;color:#fff}
-.workflow-step h3{font-size:.88rem;font-weight:700;margin-bottom:.4rem}
-.workflow-step p{font-size:.78rem;color:var(--text2);line-height:1.5}
-
-/* ── CTA ── */
-.cta-section{padding:6rem 2rem;text-align:center;position:relative;overflow:hidden}
-.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(99,102,241,.15) 0%,transparent 70%);pointer-events:none}
-.cta-section h2{font-size:clamp(1.8rem,4vw,3rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:1rem}
-.cta-section p{color:var(--text2);font-size:1.05rem;margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto}
-
-/* ── FOOTER ── */
-footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2rem}
-.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem}
-@media(max-width:768px){.footer-inner{grid-template-columns:1fr 1fr}}
-.footer-brand{font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--accent);margin-bottom:.8rem}
-.footer-desc{font-size:.82rem;color:var(--text3);line-height:1.6;max-width:300px}
-.footer-col h4{font-size:.78rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.8rem}
-.footer-col ul{list-style:none}
-.footer-col li{margin-bottom:.4rem}
-.footer-col a{font-size:.82rem;color:var(--text3);text-decoration:none;transition:color .2s}
-.footer-col a:hover{color:var(--text)}
-.footer-bottom{max-width:1200px;margin:2rem auto 0;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--text3);flex-wrap:wrap;gap:1rem}
-.footer-badges{display:flex;gap:.6rem}
-.fbadge{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:.2rem .6rem;font-family:var(--mono);font-size:.7rem;color:var(--text2)}
-
-@media(max-width:600px){
-  .hero-stats{gap:2rem}
-  .nav-links{display:none}
-  .skills-grid{grid-template-columns:1fr}
-}
+.nav-links a{color:#94a3b8;font-size:0.88rem;font-weight:500}
+.nav-links a:hover{color:#e2e8f0;text-decoration:none}
+.nav-cta{background:#22d3ee;color:#060c1a;padding:0.4rem 1.1rem;border-radius:6px;font-size:0.85rem;font-weight:700}
+.nav-cta:hover{background:#06b6d4;text-decoration:none}
+.hero{text-align:center;padding:5rem 2rem 4rem;max-width:800px;margin:0 auto}
+.hero-badge{display:inline-block;background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.3);color:#22d3ee;padding:0.3rem 1rem;border-radius:100px;font-size:0.78rem;font-weight:600;margin-bottom:1.5rem;letter-spacing:0.05em}
+h1{font-size:3rem;font-weight:800;line-height:1.1;margin-bottom:1.2rem;letter-spacing:-0.02em}
+h1 .c{color:#22d3ee}
+.hero p{font-size:1.1rem;color:#94a3b8;margin-bottom:2rem;max-width:580px;margin-left:auto;margin-right:auto}
+.btns{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
+.btn{padding:0.65rem 1.5rem;border-radius:8px;font-size:0.9rem;font-weight:600;display:inline-block}
+.btn-p{background:#22d3ee;color:#060c1a}
+.btn-p:hover{background:#06b6d4;text-decoration:none}
+.btn-s{background:#0f2035;color:#e2e8f0;border:1px solid #1e3a5f}
+.btn-s:hover{border-color:#22d3ee;text-decoration:none}
+.stats{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap}
+.stat-n{font-size:2rem;font-weight:800;font-family:monospace;color:#e2e8f0}
+.stat-l{font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.06em}
+.emblem-section{text-align:center;padding:3rem 2rem}
+.emblem-section img{max-width:420px;width:100%;border-radius:16px}
+section{padding:4rem 2rem}
+.container{max-width:1100px;margin:0 auto}
+.section-label{font-size:0.75rem;font-weight:700;color:#22d3ee;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.6rem}
+.section-title{font-size:2rem;font-weight:700;margin-bottom:0.8rem;letter-spacing:-0.01em}
+.section-sub{color:#94a3b8;margin-bottom:2.5rem;max-width:540px}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem}
+.skill-card{background:#0f1e35;border:1px solid #1e3a5f;border-radius:12px;padding:1.3rem;transition:all 0.2s}
+.skill-card:hover{border-color:#22d3ee;transform:translateY(-2px)}
+.skill-icon{font-size:1.4rem;margin-bottom:0.6rem}
+.skill-name{font-size:0.95rem;font-weight:700;margin-bottom:0.3rem;font-family:monospace}
+.skill-desc{font-size:0.82rem;color:#94a3b8;margin-bottom:0.8rem;line-height:1.5}
+.tags{display:flex;flex-wrap:wrap;gap:0.4rem}
+.tag{font-size:0.7rem;padding:0.18rem 0.55rem;border-radius:4px;font-family:monospace;font-weight:500;background:rgba(34,211,238,0.1);color:#67e8f9;border:1px solid rgba(34,211,238,0.2)}
+.new{background:#10b981;color:#fff;font-size:0.62rem;font-weight:700;padding:0.12rem 0.45rem;border-radius:4px;margin-left:0.4rem;text-transform:uppercase}
+.install-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:700px){.install-grid{grid-template-columns:1fr}}
+.icard{background:#0f1e35;border:1px solid #1e3a5f;border-radius:12px;padding:1.4rem}
+.icard h3{font-size:0.95rem;font-weight:700;margin-bottom:0.4rem}
+.icard p{font-size:0.84rem;color:#94a3b8;margin-bottom:0.8rem}
+pre{background:#020810;border:1px solid #1e3a5f;border-radius:8px;padding:1rem 1.2rem;font-family:monospace;font-size:0.82rem;overflow-x:auto;line-height:1.8;color:#e2e8f0}
+.tut-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem}
+.tut-card{background:#0f1e35;border:1px solid #1e3a5f;border-radius:12px;padding:1.3rem;display:block;color:inherit;transition:all 0.2s}
+.tut-card:hover{border-color:#22d3ee;text-decoration:none;transform:translateY(-2px)}
+.tut-meta{display:flex;gap:0.6rem;margin-bottom:0.7rem;align-items:center}
+.level{font-size:0.7rem;font-weight:700;padding:0.18rem 0.55rem;border-radius:4px;text-transform:uppercase}
+.lb{background:rgba(34,211,238,0.12);color:#67e8f9}
+.li{background:rgba(99,102,241,0.12);color:#a5b4fc}
+.la{background:rgba(236,72,153,0.12);color:#f472b6}
+.tut-time{font-size:0.72rem;color:#64748b}
+.tut-card h3{font-size:0.92rem;font-weight:700;margin-bottom:0.3rem}
+.tut-card p{font-size:0.81rem;color:#94a3b8;line-height:1.5}
+.arr{margin-top:0.7rem;color:#22d3ee;font-size:0.84rem;font-weight:600}
+.compare-table{overflow:hidden;border:1px solid #1e3a5f;border-radius:12px;max-width:860px;margin:2rem auto 0}
+table{width:100%;border-collapse:collapse;font-size:0.84rem}
+th{background:#0a1628;padding:0.8rem 1rem;text-align:left;font-size:0.75rem;font-weight:600;color:#94a3b8;letter-spacing:0.04em;border-bottom:1px solid #1e3a5f}
+th:not(:first-child){text-align:center}
+td{padding:0.7rem 1rem;border-bottom:1px solid #1e3a5f}
+tr:last-child td{border:none}
+tr:hover td{background:rgba(255,255,255,0.02)}
+td:not(:first-child){text-align:center}
+.hl{background:rgba(34,211,238,0.04)}
+.chk{color:#10b981}.crs{color:#475569}.par{color:#f59e0b}
+.cta{text-align:center;padding:5rem 2rem}
+.cta h2{font-size:2.2rem;font-weight:800;margin-bottom:0.8rem}
+.cta p{color:#94a3b8;margin-bottom:2rem;max-width:480px;margin-left:auto;margin-right:auto}
+footer{background:#0a1628;border-top:1px solid #1e3a5f;padding:2.5rem 2rem}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem}
+@media(max-width:700px){.footer-inner{grid-template-columns:1fr 1fr}.nav-links{display:none}}
+.fbrand{font-family:monospace;font-size:1rem;font-weight:700;color:#22d3ee;margin-bottom:0.6rem}
+.fdesc{font-size:0.82rem;color:#475569;line-height:1.6;max-width:280px}
+.fcol h4{font-size:0.75rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.7rem}
+.fcol ul{list-style:none}
+.fcol li{margin-bottom:0.35rem}
+.fcol a{font-size:0.82rem;color:#475569}
+.fcol a:hover{color:#e2e8f0}
+.footer-bottom{max-width:1100px;margin:1.5rem auto 0;padding-top:1.2rem;border-top:1px solid #1e3a5f;font-size:0.77rem;color:#334155;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem}
+.fbadge{background:#0f1e35;border:1px solid #1e3a5f;border-radius:4px;padding:0.18rem 0.55rem;font-family:monospace;font-size:0.7rem;color:#94a3b8}
 </style>
 </head>
 <body>
-
-<!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a class="nav-logo" href="#">🧬 OmicsAgent<span>.ai</span></a>
+    <a class="nav-logo" href="index.html">🧬 <span style="color:#22d3ee">Omics</span>Agent<span>.ai</span></a>
     <ul class="nav-links">
       <li><a href="#skills">Skills</a></li>
       <li><a href="#install">Install</a></li>
       <li><a href="#tutorials">Tutorials</a></li>
-      <li><a href="#platforms">Platforms</a></li>
-      <li><a href="docs/index.html">Docs</a></li>
+      <li><a href="tutorials/setup.html">Docs</a></li>
     </ul>
-    <a class="nav-cta" href="https://github.com/madhubioinformatics/omics-agent">⭐ GitHub</a>
+    <a class="nav-cta" href="https://github.com/madhubioinformatics/OmicsAgent">⭐ GitHub</a>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-badge">🧬 v0.2.0 — 15 omics skills · all tests passing</div>
-  <h1>The most complete<br><span class="grad">multi-omics AI agent</span><br>for bioinformatics</h1>
-  <p class="hero-sub">15 specialist skills — from scRNA-seq to scTCR/BCR, Visium to Stereo-seq, ChIP-seq to SCoPE-MS. Local-first. Reproducible. Built on the Claude API.</p>
-  <div class="hero-btns">
-    <a class="btn btn-primary" href="#install">🚀 Quick Install</a>
-    <a class="btn btn-secondary" href="docs/index.html">📖 Documentation</a>
-    <a class="btn btn-ghost" href="https://github.com/madhubioinformatics/omics-agent">⭐ Star on GitHub</a>
+<div class="hero">
+  <div class="hero-badge">🧬 v0.2.0 · 15 omics skills · MIT licensed</div>
+  <h1>The complete<br><span class="c">multi-omics AI agent</span><br>for bioinformatics</h1>
+  <p>15 specialist skills — scRNA-seq, scATAC, Visium, MERFISH, CosMx, TCR/BCR, SCoPE-MS and more. Local-first. Reproducible. Built on the Claude API.</p>
+  <div class="btns">
+    <a class="btn btn-p" href="#install">🚀 Quick Install</a>
+    <a class="btn btn-s" href="tutorials/setup.html">📖 Documentation</a>
+    <a class="btn btn-s" href="https://github.com/madhubioinformatics/OmicsAgent">⭐ Star on GitHub</a>
   </div>
-  <div class="hero-stats">
+  <div class="stats">
     <div class="stat"><div class="stat-n">15</div><div class="stat-l">Omics Skills</div></div>
     <div class="stat"><div class="stat-n">50+</div><div class="stat-l">Figures Generated</div></div>
     <div class="stat"><div class="stat-n">37/37</div><div class="stat-l">Tests Passing</div></div>
-    <div class="stat"><div class="stat-n">79s</div><div class="stat-l">Full Demo Runtime</div></div>
     <div class="stat"><div class="stat-n">MIT</div><div class="stat-l">Open Source</div></div>
   </div>
-</section>
+</div>
 
-<!-- TERMINAL DEMO -->
-<section class="terminal-section">
-  <div class="terminal-wrap">
-    <div class="section-label">✦ See it in action</div>
-    <h2 class="section-title">From raw data to reproducible report<br>in one command</h2>
-    <p class="section-sub">Every analysis exports a full reproducibility bundle — report, figures, commands, conda environment, and SHA-256 checksums.</p>
-    <div class="terminal">
-      <div class="term-bar"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span class="term-title">bash — omics-agent</span></div>
-      <div class="term-body">
-        <span class="term-line"><span class="term-comment"># Clone and install</span></span>
-        <span class="term-line"><span class="term-prompt">$ </span><span class="term-cmd">git clone https://github.com/madhubioinformatics/omics-agent && cd omics-agent</span></span>
-        <span class="term-line"><span class="term-prompt">$ </span><span class="term-cmd">pip install -r requirements.txt</span></span>
-        <span class="term-line"><span class="term-prompt">$ </span><span class="term-cmd">export ANTHROPIC_API_KEY="sk-ant-..."</span></span>
-        <span class="term-line">&nbsp;</span>
-        <span class="term-line"><span class="term-comment"># Run all 15 skills with PBMC demo data</span></span>
-        <span class="term-line"><span class="term-prompt">$ </span><span class="term-cmd">python3 omics_agent.py --demo</span></span>
-        <span class="term-line">&nbsp;</span>
-        <span class="term-line"><span class="term-out">▶  scRNA-seq (Single-cell)</span></span>
-        <span class="term-line"><span class="term-ok">   ✓  Done → output/scrna_report</span></span>
-        <span class="term-line"><span class="term-out">▶  scATAC-seq (ChromVAR / LSI)</span></span>
-        <span class="term-line"><span class="term-ok">   ✓  Done → output/scatac_report</span></span>
-        <span class="term-line"><span class="term-out">▶  Spatial Transcriptomics (Visium/MERFISH/CosMx/Stereo-seq)</span></span>
-        <span class="term-line"><span class="term-ok">   ✓  Done → output/spatial_full_report</span></span>
-        <span class="term-line"><span class="term-out">▶  scTCR/BCR-seq (Immune Repertoire)</span></span>
-        <span class="term-line"><span class="term-ok">   ✓  Done → output/scTCR_BCR_report</span></span>
-        <span class="term-line"><span class="term-dim">   ... 11 more skills ...</span></span>
-        <span class="term-line">&nbsp;</span>
-        <span class="term-line"><span class="term-ok">15/15 skills completed  ·  50 figures  ·  27 tables  ·  79s</span></span>
-        <span class="term-line">&nbsp;</span>
-        <span class="term-line"><span class="term-comment"># Interactive chat with real Claude API</span></span>
-        <span class="term-line"><span class="term-prompt">$ </span><span class="term-cmd">python3 omics_agent.py --chat</span></span>
-        <span class="term-line"><span class="term-out">You: Cluster my PBMC scRNA-seq data and identify exhausted CD8 T cells</span></span>
-        <span class="term-line"><span class="term-out">Agent: [Skills: scrna, scTCR_BCR] Running QC → normalization → UMAP...</span></span>
-      </div>
-    </div>
-  </div>
-</section>
+<div class="emblem-section">
+  <img src="assets/omicsagent-emblem.svg" alt="OmicsAgent.ai emblem — 15 omics spokes">
+</div>
 
-<!-- SKILLS -->
-<section class="skills-section" id="skills">
+<section id="skills">
   <div class="container">
-    <div class="skills-header">
+    <div style="text-align:center;margin-bottom:2.5rem">
       <div class="section-label">✦ Skill library</div>
       <h2 class="section-title">15 specialist omics skills</h2>
-      <p class="section-sub" style="margin:0 auto">Each skill encodes domain-expert decisions — correct tool versions, QC thresholds, normalization methods — so the AI gets it right first time.</p>
+      <p class="section-sub" style="margin:0 auto">Each skill encodes domain-expert decisions — correct thresholds, tool versions, normalization methods.</p>
     </div>
     <div class="skills-grid">
-
-      <div class="skill-card">
-        <div class="skill-icon">🧬</div>
-        <div class="skill-name">Genomics</div>
-        <div class="skill-desc">WGS/WES/SNP variant calling, ancestry PCA, pharmacogenomics (CYP2D6, DPYD, SLCO1B1)</div>
-        <div class="skill-tags"><span class="tag tag-blue">GATK 4.4</span><span class="tag tag-green">bcftools</span><span class="tag tag-purple">plink 2.0</span><span class="tag tag-amber">VEP 110</span></div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-icon">📊</div>
-        <div class="skill-name">Transcriptomics</div>
-        <div class="skill-desc">Bulk RNA-seq DE analysis, DESeq2 Wald test, LFC shrinkage, GO/KEGG pathway enrichment</div>
-        <div class="skill-tags"><span class="tag tag-blue">DESeq2 1.40</span><span class="tag tag-green">salmon 1.10</span><span class="tag tag-purple">edgeR</span></div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-icon">🔬</div>
-        <div class="skill-name">scRNA-seq</div>
-        <div class="skill-desc">Single-cell: QC, normalization, HVG, PCA, UMAP, Leiden clustering, cell type markers</div>
-        <div class="skill-tags"><span class="tag tag-blue">Scanpy 1.9</span><span class="tag tag-green">Seurat 5</span><span class="tag tag-purple">leidenalg</span></div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-icon">🧪</div>
-        <div class="skill-name">Proteomics</div>
-        <div class="skill-desc">LC-MS/MS DDA+DIA, median normalization, min-prob imputation, limma DE, STRING network</div>
-        <div class="skill-tags"><span class="tag tag-blue">MaxQuant 2.4</span><span class="tag tag-green">DIA-NN 1.8</span><span class="tag tag-amber">Perseus</span></div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-icon">⚗️</div>
-        <div class="skill-name">Metabolomics</div>
-        <div class="skill-desc">Untargeted LC-MS, centWave peak detection, PQN normalization, HMDB annotation</div>
-        <div class="skill-tags"><span class="tag tag-blue">XCMS 3.22</span><span class="tag tag-green">MZmine 3</span><span class="tag tag-purple">MetaboAnalyst</span></div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-icon">🏔️</div>
-        <div class="skill-name">Bulk Epigenomics</div>
-        <div class="skill-desc">6 histone marks + bulk ATAC. deepTools signal heatmaps, MACS3 peak calling, DiffBind</div>
-        <div class="skill-tags"><span class="tag tag-blue">H3K27ac</span><span class="tag tag-green">H3K4me3</span><span class="tag tag-pink">H3K27me3</span><span class="tag tag-amber">CTCF</span></div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-new">New</div>
-        <div class="skill-icon">🎯</div>
-        <div class="skill-name">scATAC-seq</div>
-        <div class="skill-desc">TF-IDF + LSI, ChromVAR TF deviations (JASPAR 2022), TSS enrichment profile, DA peaks</div>
-        <div class="skill-tags"><span class="tag tag-blue">ArchR 1.0</span><span class="tag tag-green">ChromVAR</span><span class="tag tag-purple">Signac</span><span class="tag tag-pink">HOMER</span></div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-new">New</div>
-        <div class="skill-icon">🗺️</div>
-        <div class="skill-name">Spatial Full</div>
-        <div class="skill-desc">Visium · MERFISH · CosMx · Stereo-seq. Moran's I SVGs, RCTD deconvolution, CellChat L-R</div>
-        <div class="skill-tags"><span class="tag tag-blue">Squidpy 1.4</span><span class="tag tag-green">RCTD</span><span class="tag tag-purple">CellChat</span><span class="tag tag-amber">SpatialDE</span></div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-new">New</div>
-        <div class="skill-icon">🦠</div>
-        <div class="skill-name">Metagenomics</div>
-        <div class="skill-desc">Shotgun + 16S. MetaPhlAn taxonomic profiling, Shannon/Bray-Curtis diversity, MaAsLin2 DA</div>
-        <div class="skill-tags"><span class="tag tag-blue">MetaPhlAn 4</span><span class="tag tag-green">Kraken2</span><span class="tag tag-purple">DADA2</span></div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-new">New</div>
-        <div class="skill-icon">🔗</div>
-        <div class="skill-name">scTCR/BCR-seq</div>
-        <div class="skill-desc">Clonotype expansion, V(D)J gene usage, CDR3 diversity, BCR SHM rates, isotype switching</div>
-        <div class="skill-tags"><span class="tag tag-blue">Scirpy 0.16</span><span class="tag tag-green">IgBlast</span><span class="tag tag-purple">Immcantation</span></div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-new">New</div>
-        <div class="skill-icon">💎</div>
-        <div class="skill-name">sc-Proteomics Full</div>
-        <div class="skill-desc">CITE-seq ADT (CLR norm) + SCoPE-MS intracellular proteomics, WNN joint embedding</div>
-        <div class="skill-tags"><span class="tag tag-blue">CITE-seq-Count</span><span class="tag tag-green">SCoPE-MS</span><span class="tag tag-purple">WNN</span></div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-icon">🔀</div>
-        <div class="skill-name">Multi-omics Integration</div>
-        <div class="skill-desc">MOFA+ latent factor analysis, DIABLO multi-block PLS-DA, cross-omics Spearman correlations</div>
-        <div class="skill-tags"><span class="tag tag-blue">MOFA+ 1.6</span><span class="tag tag-green">mixOmics</span><span class="tag tag-purple">DIABLO</span></div>
-      </div>
-
+      <div class="skill-card"><div class="skill-icon">🧬</div><div class="skill-name">Genomics</div><div class="skill-desc">WGS/WES/SNP variant calling, ancestry PCA, pharmacogenomics</div><div class="tags"><span class="tag">GATK 4.4</span><span class="tag">bcftools</span><span class="tag">VEP 110</span></div></div>
+      <div class="skill-card"><div class="skill-icon">📊</div><div class="skill-name">Transcriptomics</div><div class="skill-desc">Bulk RNA-seq DE, DESeq2 Wald test, GO/KEGG pathway enrichment</div><div class="tags"><span class="tag">DESeq2</span><span class="tag">salmon</span><span class="tag">edgeR</span></div></div>
+      <div class="skill-card"><div class="skill-icon">🔬</div><div class="skill-name">scRNA-seq</div><div class="skill-desc">QC, normalization, UMAP, Leiden clustering, cell type markers</div><div class="tags"><span class="tag">Scanpy</span><span class="tag">Seurat 5</span><span class="tag">leidenalg</span></div></div>
+      <div class="skill-card"><div class="skill-icon">🧪</div><div class="skill-name">Proteomics</div><div class="skill-desc">LC-MS/MS DDA+DIA, imputation, limma DE, STRING network</div><div class="tags"><span class="tag">MaxQuant</span><span class="tag">DIA-NN</span><span class="tag">limma</span></div></div>
+      <div class="skill-card"><div class="skill-icon">⚗️</div><div class="skill-name">Metabolomics</div><div class="skill-desc">Untargeted LC-MS, PQN normalization, HMDB annotation</div><div class="tags"><span class="tag">XCMS</span><span class="tag">MZmine 3</span><span class="tag">MetaboAnalyst</span></div></div>
+      <div class="skill-card"><div class="skill-icon">🏔️</div><div class="skill-name">Bulk Epigenomics</div><div class="skill-desc">6 histone marks + bulk ATAC, deepTools signal heatmaps</div><div class="tags"><span class="tag">H3K27ac</span><span class="tag">MACS3</span><span class="tag">DiffBind</span></div></div>
+      <div class="skill-card"><div class="skill-icon">🎯</div><div class="skill-name">scATAC-seq <span class="new">New</span></div><div class="skill-desc">TF-IDF + LSI, ChromVAR TF deviations (JASPAR 2022), DA peaks</div><div class="tags"><span class="tag">ArchR</span><span class="tag">ChromVAR</span><span class="tag">Signac</span></div></div>
+      <div class="skill-card"><div class="skill-icon">🗺️</div><div class="skill-name">Spatial Full <span class="new">New</span></div><div class="skill-desc">Visium · MERFISH · CosMx · Stereo-seq · RCTD · CellChat</div><div class="tags"><span class="tag">Squidpy</span><span class="tag">RCTD</span><span class="tag">CellChat</span></div></div>
+      <div class="skill-card"><div class="skill-icon">🦠</div><div class="skill-name">Metagenomics</div><div class="skill-desc">Shotgun + 16S, Shannon diversity, Bray-Curtis, MaAsLin2</div><div class="tags"><span class="tag">MetaPhlAn 4</span><span class="tag">Kraken2</span><span class="tag">DADA2</span></div></div>
+      <div class="skill-card"><div class="skill-icon">🔗</div><div class="skill-name">scTCR/BCR-seq <span class="new">New</span></div><div class="skill-desc">Clonotype expansion, V(D)J usage, CDR3, SHM, isotype switching</div><div class="tags"><span class="tag">Scirpy</span><span class="tag">IgBlast</span><span class="tag">Immcantation</span></div></div>
+      <div class="skill-card"><div class="skill-icon">💎</div><div class="skill-name">sc-Proteomics Full <span class="new">New</span></div><div class="skill-desc">CITE-seq ADT (CLR) + SCoPE-MS intracellular, WNN embedding</div><div class="tags"><span class="tag">CITE-seq-Count</span><span class="tag">SCoPE-MS</span><span class="tag">WNN</span></div></div>
+      <div class="skill-card"><div class="skill-icon">🔀</div><div class="skill-name">Multi-omics Integration</div><div class="skill-desc">MOFA+ latent factors, DIABLO, cross-omics Spearman correlations</div><div class="tags"><span class="tag">MOFA+</span><span class="tag">DIABLO</span><span class="tag">mixOmics</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- INSTALL -->
-<section class="install-section" id="install">
+<section id="install" style="background:#0a1222">
   <div class="container">
-    <div style="text-align:center;margin-bottom:3rem">
+    <div style="text-align:center;margin-bottom:2.5rem">
       <div class="section-label">✦ Installation</div>
       <h2 class="section-title">Up and running in 60 seconds</h2>
-      <p class="section-sub" style="margin:0 auto">Three install paths — choose what fits your workflow.</p>
     </div>
     <div class="install-grid">
+      <div class="icard"><h3>1 · Clone &amp; install</h3><p>Python 3.10+ required</p><pre>git clone https://github.com/madhubioinformatics/OmicsAgent
+cd OmicsAgent
+pip install -r requirements.txt</pre></div>
+      <div class="icard"><h3>2 · Set API key</h3><p>Get your key at console.anthropic.com</p><pre>export ANTHROPIC_API_KEY="sk-ant-..."</pre></div>
+      <div class="icard"><h3>3 · Run demo</h3><p>All 15 skills, ~80 seconds</p><pre>python3 omics_agent.py --demo</pre></div>
+      <div class="icard"><h3>4 · Interactive chat</h3><p>Describe your analysis in plain English</p><pre>python3 omics_agent.py --chat
 
-      <div class="install-card">
-        <h3><span class="step-num">1</span> Prerequisites</h3>
-        <p>Check your Python version and install system dependencies</p>
-        <div class="code-block" style="position:relative">
-          <button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.innerText)">copy</button>
-          <pre><span class="comment"># Python 3.10+ required</span>
-<span class="cmd">python3 --version</span>
-<span class="out">Python 3.12.3  ✓</span>
-
-<span class="comment"># Conda (recommended)</span>
-<span class="cmd">conda create -n omics-agent python=3.11</span>
-<span class="cmd">conda activate omics-agent</span></pre>
-        </div>
-      </div>
-
-      <div class="install-card">
-        <h3><span class="step-num">2</span> Clone &amp; Install</h3>
-        <p>Clone the repository and install Python dependencies</p>
-        <div class="code-block" style="position:relative">
-          <button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.innerText)">copy</button>
-          <pre><span class="cmd">git clone https://github.com/madhubioinformatics/omics-agent</span>
-<span class="cmd">cd omics-agent</span>
-<span class="cmd">pip install -r requirements.txt</span>
-<span class="out">Successfully installed 12 packages ✓</span></pre>
-        </div>
-      </div>
-
-      <div class="install-card">
-        <h3><span class="step-num">3</span> Set API Key</h3>
-        <p>Add your Anthropic API key for natural language routing</p>
-        <div class="code-block" style="position:relative">
-          <button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.innerText)">copy</button>
-          <pre><span class="comment"># Get key at console.anthropic.com</span>
-<span class="cmd">export ANTHROPIC_API_KEY="sk-ant-..."</span>
-
-<span class="comment"># Or add to .env file</span>
-<span class="cmd">echo 'ANTHROPIC_API_KEY=sk-ant-...' >> .env</span></pre>
-        </div>
-      </div>
-
-      <div class="install-card">
-        <h3><span class="step-num">4</span> Run Demo</h3>
-        <p>Execute all 15 skills on PBMC demo data to verify everything works</p>
-        <div class="code-block" style="position:relative">
-          <button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.innerText)">copy</button>
-          <pre><span class="comment"># Generate PBMC demo data first</span>
-<span class="cmd">python3 data/pbmc_demo_generator.py</span>
-
-<span class="comment"># Run all 15 skills</span>
-<span class="cmd">python3 omics_agent.py --demo</span>
-<span class="out">15/15 skills ✓  50 figures  79s</span></pre>
-        </div>
-      </div>
-
-      <div class="install-card" style="grid-column:span 2">
-        <h3>🐳 Docker (isolated, no dependency conflicts)</h3>
-        <p>Recommended for HPC or when you want complete environment isolation</p>
-        <div class="code-block" style="position:relative">
-          <button class="copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.innerText)">copy</button>
-          <pre><span class="comment"># Build image</span>
-<span class="cmd">docker build -t omics-agent .</span>
-
-<span class="comment"># Run with your data mounted</span>
-<span class="cmd">docker run -v $(pwd)/data:/app/data \
-  -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
-  omics-agent python3 omics_agent.py --demo</span>
-
-<span class="comment"># Interactive chat inside container</span>
-<span class="cmd">docker run -it omics-agent python3 omics_agent.py --chat</span></pre>
-        </div>
-      </div>
-
+You: Cluster my PBMC scRNA-seq data
+     and find exhausted T cells</pre></div>
     </div>
   </div>
 </section>
 
-<!-- REQUIREMENTS -->
-<section class="req-section" id="requirements">
+<section id="tutorials">
   <div class="container">
-    <div style="text-align:center;margin-bottom:1rem">
-      <div class="section-label">✦ Dependencies</div>
-      <h2 class="section-title">All dependencies, pinned</h2>
-      <p class="section-sub" style="margin:0 auto">Every skill's conda environment is auto-exported for full reproducibility.</p>
-    </div>
-    <div class="req-grid">
-      <div class="req-card">
-        <h4>🐍 Core Python</h4>
-        <div class="req-item"><span class="req-name">numpy</span><span class="req-ver">≥1.24</span></div>
-        <div class="req-item"><span class="req-name">pandas</span><span class="req-ver">≥2.0</span></div>
-        <div class="req-item"><span class="req-name">scipy</span><span class="req-ver">≥1.11</span></div>
-        <div class="req-item"><span class="req-name">scikit-learn</span><span class="req-ver">≥1.3</span></div>
-        <div class="req-item"><span class="req-name">matplotlib</span><span class="req-ver">≥3.7</span></div>
-        <div class="req-item"><span class="req-name">seaborn</span><span class="req-ver">≥0.12</span></div>
-      </div>
-      <div class="req-card">
-        <h4>🤖 AI / API</h4>
-        <div class="req-item"><span class="req-name">anthropic</span><span class="req-ver">≥0.40</span></div>
-        <div class="req-item"><span class="req-name">python-dotenv</span><span class="req-ver">≥1.0</span></div>
-        <div class="req-item"><span class="req-name">pyyaml</span><span class="req-ver">≥6.0</span></div>
-        <div class="req-item"><span class="req-name">Python</span><span class="req-ver">≥3.10</span></div>
-      </div>
-      <div class="req-card">
-        <h4>🔬 scRNA / ATAC</h4>
-        <div class="req-item"><span class="req-name">scanpy</span><span class="req-ver">1.9+</span></div>
-        <div class="req-item"><span class="req-name">snapatac2</span><span class="req-ver">2.5+</span></div>
-        <div class="req-item"><span class="req-name">archr</span><span class="req-ver">1.0.3</span></div>
-        <div class="req-item"><span class="req-name">chromvar</span><span class="req-ver">1.22</span></div>
-        <div class="req-item"><span class="req-name">leidenalg</span><span class="req-ver">0.10+</span></div>
-        <div class="req-item"><span class="req-name">harmonypy</span><span class="req-ver">0.0.9</span></div>
-      </div>
-      <div class="req-card">
-        <h4>🗺️ Spatial</h4>
-        <div class="req-item"><span class="req-name">squidpy</span><span class="req-ver">1.4+</span></div>
-        <div class="req-item"><span class="req-name">cell2location</span><span class="req-ver">0.1.3</span></div>
-        <div class="req-item"><span class="req-name">spatialDE</span><span class="req-ver">2.0</span></div>
-        <div class="req-item"><span class="req-name">cellchat</span><span class="req-ver">2.1</span></div>
-        <div class="req-item"><span class="req-name">graphst</span><span class="req-ver">1.1</span></div>
-      </div>
-      <div class="req-card">
-        <h4>🔗 TCR/BCR</h4>
-        <div class="req-item"><span class="req-name">scirpy</span><span class="req-ver">0.16+</span></div>
-        <div class="req-item"><span class="req-name">screpertoire</span><span class="req-ver">2.0</span></div>
-        <div class="req-item"><span class="req-name">dandelion</span><span class="req-ver">0.3+</span></div>
-        <div class="req-item"><span class="req-name">igblast</span><span class="req-ver">1.22</span></div>
-        <div class="req-item"><span class="req-name">changeo</span><span class="req-ver">1.3+</span></div>
-      </div>
-      <div class="req-card">
-        <h4>⚙️ Epigenomics</h4>
-        <div class="req-item"><span class="req-name">macs3</span><span class="req-ver">3.0+</span></div>
-        <div class="req-item"><span class="req-name">deeptools</span><span class="req-ver">3.5.4</span></div>
-        <div class="req-item"><span class="req-name">diffbind</span><span class="req-ver">3.10</span></div>
-        <div class="req-item"><span class="req-name">bowtie2</span><span class="req-ver">2.5.3</span></div>
-        <div class="req-item"><span class="req-name">homer</span><span class="req-ver">4.11</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PLATFORMS -->
-<section class="platform-section" id="platforms">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:1rem">
-      <div class="section-label">✦ Spatial platforms</div>
-      <h2 class="section-title">All major spatial platforms</h2>
-      <p class="section-sub" style="margin:0 auto">One skill handles all four — unified QC, SVG detection, and deconvolution pipeline.</p>
-    </div>
-    <div class="platform-grid">
-      <div class="platform-card">
-        <div class="platform-icon">🔵</div>
-        <div class="platform-name">10x Visium</div>
-        <div class="platform-detail">55 µm spots · 18k genes · Space Ranger → Squidpy · H&amp;E overlay</div>
-      </div>
-      <div class="platform-card">
-        <div class="platform-icon">🟢</div>
-        <div class="platform-name">MERFISH</div>
-        <div class="platform-detail">Single-cell · 100–10k genes · In-situ imaging · Cellpose segmentation</div>
-      </div>
-      <div class="platform-card">
-        <div class="platform-icon">🔴</div>
-        <div class="platform-name">10x CosMx</div>
-        <div class="platform-detail">Single-cell · 1k–6k genes · FFPE compatible · AtoMx export</div>
-      </div>
-      <div class="platform-card">
-        <div class="platform-icon">🟣</div>
-        <div class="platform-name">Stereo-seq</div>
-        <div class="platform-detail">0.5 µm bins · 20k genes · DNB-seq · Stereopy pipeline</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TUTORIALS -->
-<section class="tut-section" id="tutorials">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:1rem">
+    <div style="text-align:center;margin-bottom:2.5rem">
       <div class="section-label">✦ Tutorials</div>
       <h2 class="section-title">Learn step by step</h2>
-      <p class="section-sub" style="margin:0 auto">From first install to publishing reproducible multi-omics analyses.</p>
     </div>
     <div class="tut-grid">
-      <a class="tut-card" href="docs/tutorials/setup.html">
-        <div class="tut-meta"><span class="tut-level level-beginner">Beginner</span><span class="tut-time">⏱ 10 min</span></div>
-        <h3>Installation &amp; Setup</h3>
-        <p>Install OmicsAgent, configure your API key, and run your first skill in under 10 minutes.</p>
-        <div class="tut-arrow">Start tutorial →</div>
-      </a>
-      <a class="tut-card" href="docs/tutorials/pbmc-demo.html">
-        <div class="tut-meta"><span class="tut-level level-beginner">Beginner</span><span class="tut-time">⏱ 15 min</span></div>
-        <h3>PBMC Multi-omics Demo</h3>
-        <p>Run all 15 skills on realistic PBMC data. Understand the Healthy vs Sepsis signatures across omics layers.</p>
-        <div class="tut-arrow">Start tutorial →</div>
-      </a>
-      <a class="tut-card" href="docs/tutorials/scrna.html">
-        <div class="tut-meta"><span class="tut-level level-beginner">Beginner</span><span class="tut-time">⏱ 20 min</span></div>
-        <h3>scRNA-seq: PBMC Cell Typing</h3>
-        <p>QC filtering, normalization, HVG selection, UMAP, Leiden clustering, and canonical marker annotation.</p>
-        <div class="tut-arrow">Start tutorial →</div>
-      </a>
-      <a class="tut-card" href="docs/tutorials/scatac.html">
-        <div class="tut-meta"><span class="tut-level level-intermediate">Intermediate</span><span class="tut-time">⏱ 25 min</span></div>
-        <h3>scATAC-seq: ChromVAR &amp; TF Motifs</h3>
-        <p>TF-IDF normalization, LSI dimensionality reduction, ChromVAR TF deviations, and differential accessibility.</p>
-        <div class="tut-arrow">Start tutorial →</div>
-      </a>
-      <a class="tut-card" href="docs/tutorials/spatial.html">
-        <div class="tut-meta"><span class="tut-level level-intermediate">Intermediate</span><span class="tut-time">⏱ 30 min</span></div>
-        <h3>Spatial: Visium → Stereo-seq</h3>
-        <p>Platform-specific QC, spatially variable gene detection, RCTD deconvolution, and CellChat communication.</p>
-        <div class="tut-arrow">Start tutorial →</div>
-      </a>
-      <a class="tut-card" href="docs/tutorials/tcr-bcr.html">
-        <div class="tut-meta"><span class="tut-level level-intermediate">Intermediate</span><span class="tut-time">⏱ 25 min</span></div>
-        <h3>scTCR/BCR: Immune Repertoire</h3>
-        <p>Clonotype expansion, V(D)J gene usage, CDR3 diversity, BCR somatic hypermutation analysis.</p>
-        <div class="tut-arrow">Start tutorial →</div>
-      </a>
-      <a class="tut-card" href="docs/tutorials/integration.html">
-        <div class="tut-meta"><span class="tut-level level-advanced">Advanced</span><span class="tut-time">⏱ 40 min</span></div>
-        <h3>Multi-omics Integration: MOFA+</h3>
-        <p>Integrate RNA, ATAC, proteomics, and metabolomics with MOFA+ latent factor analysis and DIABLO.</p>
-        <div class="tut-arrow">Start tutorial →</div>
-      </a>
-      <a class="tut-card" href="docs/tutorials/build-skill.html">
-        <div class="tut-meta"><span class="tut-level level-advanced">Advanced</span><span class="tut-time">⏱ 45 min</span></div>
-        <h3>Build Your Own Skill</h3>
-        <p>Create a new SKILL.md spec, write a Python pipeline, register routing keywords, add tests, and submit a PR.</p>
-        <div class="tut-arrow">Start tutorial →</div>
-      </a>
-      <a class="tut-card" href="docs/tutorials/hpc.html">
-        <div class="tut-meta"><span class="tut-level level-advanced">Advanced</span><span class="tut-time">⏱ 20 min</span></div>
-        <h3>HPC &amp; Cloud Deployment</h3>
-        <p>Submit jobs to SLURM, run on AWS/GCP/Azure, and configure hybrid local+cloud execution.</p>
-        <div class="tut-arrow">Start tutorial →</div>
-      </a>
+      <a class="tut-card" href="tutorials/setup.html"><div class="tut-meta"><span class="level lb">Beginner</span><span class="tut-time">⏱ 10 min</span></div><h3>Installation &amp; Setup</h3><p>Install OmicsAgent, configure your API key, and run your first skill.</p><div class="arr">Start →</div></a>
+      <a class="tut-card" href="tutorials/pbmc-demo.html"><div class="tut-meta"><span class="level lb">Beginner</span><span class="tut-time">⏱ 15 min</span></div><h3>PBMC Multi-omics Demo</h3><p>Run all 15 skills on realistic PBMC data (Healthy vs Sepsis).</p><div class="arr">Start →</div></a>
+      <a class="tut-card" href="tutorials/scrna.html"><div class="tut-meta"><span class="level lb">Beginner</span><span class="tut-time">⏱ 20 min</span></div><h3>scRNA-seq Cell Typing</h3><p>QC, normalization, UMAP, Leiden clustering, and PBMC marker annotation.</p><div class="arr">Start →</div></a>
+      <a class="tut-card" href="tutorials/scatac.html"><div class="tut-meta"><span class="level li">Intermediate</span><span class="tut-time">⏱ 25 min</span></div><h3>scATAC-seq &amp; ChromVAR</h3><p>TF-IDF+LSI, ChromVAR TF deviation scores, differential accessibility.</p><div class="arr">Start →</div></a>
+      <a class="tut-card" href="tutorials/spatial.html"><div class="tut-meta"><span class="level li">Intermediate</span><span class="tut-time">⏱ 30 min</span></div><h3>Spatial: 4 Platforms</h3><p>Visium, MERFISH, CosMx, Stereo-seq — SVGs, RCTD, CellChat.</p><div class="arr">Start →</div></a>
+      <a class="tut-card" href="tutorials/tcr-bcr.html"><div class="tut-meta"><span class="level li">Intermediate</span><span class="tut-time">⏱ 25 min</span></div><h3>scTCR/BCR Repertoire</h3><p>Clonotype expansion, V-gene usage, CDR3 diversity, BCR SHM.</p><div class="arr">Start →</div></a>
+      <a class="tut-card" href="tutorials/integration.html"><div class="tut-meta"><span class="level la">Advanced</span><span class="tut-time">⏱ 40 min</span></div><h3>Multi-omics Integration</h3><p>MOFA+ latent factors, DIABLO classification, cross-omics correlations.</p><div class="arr">Start →</div></a>
+      <a class="tut-card" href="tutorials/build-skill.html"><div class="tut-meta"><span class="level la">Advanced</span><span class="tut-time">⏱ 45 min</span></div><h3>Build Your Own Skill</h3><p>Write SKILL.md, run.py pipeline, register keywords, submit PR.</p><div class="arr">Start →</div></a>
+      <a class="tut-card" href="tutorials/hpc.html"><div class="tut-meta"><span class="level la">Advanced</span><span class="tut-time">⏱ 20 min</span></div><h3>HPC &amp; Cloud Deployment</h3><p>SLURM, AWS, GCP, Azure, Docker — run at any scale.</p><div class="arr">Start →</div></a>
     </div>
   </div>
 </section>
 
-<!-- COMPARISON -->
-<section class="compare-section">
+<section style="background:#0a1222">
   <div class="container">
-    <div style="text-align:center;margin-bottom:1rem">
-      <div class="section-label">✦ Why OmicsAgent</div>
-      <h2 class="section-title">Better than existing tools</h2>
-      <p class="section-sub" style="margin:0 auto">OmicsAgent covers every major omics layer in one system — no other tool does this.</p>
+    <div style="text-align:center;margin-bottom:2rem">
+      <div class="section-label">✦ Why OmicsAgent.ai</div>
+      <h2 class="section-title">Better than any existing tool</h2>
     </div>
     <div class="compare-table">
       <table>
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th class="highlight-col">OmicsAgent</th>
-            <th>ClawBio</th>
-            <th>General LLM</th>
-            <th>Galaxy</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Feature</th><th class="hl">OmicsAgent.ai</th><th>ClawBio</th><th>General LLM</th><th>Galaxy</th></tr></thead>
         <tbody>
-          <tr><td>scRNA-seq</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="partial">~</span></td><td><span class="check">✓</span></td></tr>
-          <tr><td>scATAC-seq + ChromVAR</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="partial">~</span></td></tr>
-          <tr><td>Spatial (4 platforms)</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
-          <tr><td>scTCR/BCR repertoire</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="partial">~</span></td></tr>
-          <tr><td>sc-Proteomics (SCoPE-MS)</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
-          <tr><td>Multi-omics integration (MOFA+)</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
-          <tr><td>6 histone marks (ChIP-seq)</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="partial">~</span></td></tr>
-          <tr><td>SHA-256 reproducibility bundle</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
-          <tr><td>Natural language routing</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
-          <tr><td>Local-first (no data upload)</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+          <tr><td>scRNA-seq</td><td class="hl"><span class="chk">✓</span></td><td><span class="chk">✓</span></td><td><span class="par">~</span></td><td><span class="chk">✓</span></td></tr>
+          <tr><td>scATAC-seq + ChromVAR</td><td class="hl"><span class="chk">✓</span></td><td><span class="crs">✗</span></td><td><span class="crs">✗</span></td><td><span class="par">~</span></td></tr>
+          <tr><td>Spatial (4 platforms)</td><td class="hl"><span class="chk">✓</span></td><td><span class="crs">✗</span></td><td><span class="crs">✗</span></td><td><span class="crs">✗</span></td></tr>
+          <tr><td>scTCR/BCR repertoire</td><td class="hl"><span class="chk">✓</span></td><td><span class="crs">✗</span></td><td><span class="crs">✗</span></td><td><span class="par">~</span></td></tr>
+          <tr><td>sc-Proteomics (SCoPE-MS)</td><td class="hl"><span class="chk">✓</span></td><td><span class="crs">✗</span></td><td><span class="crs">✗</span></td><td><span class="crs">✗</span></td></tr>
+          <tr><td>Multi-omics integration</td><td class="hl"><span class="chk">✓</span></td><td><span class="crs">✗</span></td><td><span class="crs">✗</span></td><td><span class="crs">✗</span></td></tr>
+          <tr><td>Reproducibility bundle (SHA-256)</td><td class="hl"><span class="chk">✓</span></td><td><span class="chk">✓</span></td><td><span class="crs">✗</span></td><td><span class="crs">✗</span></td></tr>
+          <tr><td>Local-first (no data upload)</td><td class="hl"><span class="chk">✓</span></td><td><span class="chk">✓</span></td><td><span class="crs">✗</span></td><td><span class="crs">✗</span></td></tr>
         </tbody>
       </table>
     </div>
   </div>
 </section>
 
-<!-- WORKFLOW -->
-<section class="workflow-section">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:1rem">
-      <div class="section-label">✦ How it works</div>
-      <h2 class="section-title">Prompt → Pipeline → Reproducible report</h2>
-    </div>
-    <div class="workflow-steps">
-      <div class="workflow-step">
-        <div class="step-circle">1</div>
-        <h3>Natural language prompt</h3>
-        <p>Describe your analysis in plain English. "Cluster my PBMC scRNA-seq and identify exhausted T cells."</p>
-      </div>
-      <div class="workflow-step">
-        <div class="step-circle">2</div>
-        <h3>Skill routing</h3>
-        <p>Claude API reads SKILL.md files and routes to the correct expert pipeline — never hallucinates thresholds.</p>
-      </div>
-      <div class="workflow-step">
-        <div class="step-circle">3</div>
-        <h3>Local execution</h3>
-        <p>Pipeline runs on your machine. Raw data never leaves. Runs on laptop, HPC, cloud, or hybrid.</p>
-      </div>
-      <div class="workflow-step">
-        <div class="step-circle">4</div>
-        <h3>Reproducibility bundle</h3>
-        <p>report.md + figures + commands.sh + environment.yml + checksums.sha256. Anyone can reproduce in 30 seconds.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-section">
-  <div class="cta-glow"></div>
+<div class="cta">
   <div class="section-label" style="justify-content:center;display:flex">✦ Get started</div>
   <h2>Start your multi-omics analysis today</h2>
-  <p>15 skills. 50+ figures. PBMC demo included. MIT licensed. Free forever.</p>
-  <div class="hero-btns">
-    <a class="btn btn-primary" href="#install">🚀 Install Now</a>
-    <a class="btn btn-secondary" href="docs/index.html">📖 Read the Docs</a>
-    <a class="btn btn-ghost" href="https://github.com/madhubioinformatics/omics-agent">⭐ GitHub</a>
+  <p>15 skills · 50+ figures · PBMC demo included · MIT licensed · Free forever</p>
+  <div class="btns">
+    <a class="btn btn-p" href="#install">🚀 Install Now</a>
+    <a class="btn btn-s" href="tutorials/setup.html">📖 Read the Docs</a>
+    <a class="btn btn-s" href="https://github.com/madhubioinformatics/OmicsAgent">⭐ GitHub</a>
   </div>
-</section>
+</div>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div>
-      <div class="footer-brand">🧬 OmicsAgent</div>
-      <p class="footer-desc">The most complete multi-omics AI agent for bioinformatics. 15 specialist skills. Local-first. Reproducible. Built on the Claude API.</p>
+      <div class="fbrand">🧬 OmicsAgent.ai</div>
+      <p class="fdesc">The complete multi-omics AI agent for bioinformatics. 15 specialist skills. Local-first. Reproducible. Built on the Claude API.</p>
     </div>
-    <div class="footer-col">
+    <div class="fcol">
       <h4>Skills</h4>
       <ul>
-        <li><a href="docs/skills/scrna.html">scRNA-seq</a></li>
-        <li><a href="docs/skills/scatac.html">scATAC-seq</a></li>
-        <li><a href="docs/skills/spatial.html">Spatial</a></li>
-        <li><a href="docs/skills/tcr-bcr.html">scTCR/BCR</a></li>
-        <li><a href="docs/skills/integration.html">Integration</a></li>
-        <li><a href="docs/skills/index.html">All 15 skills →</a></li>
+        <li><a href="skills/scrna.html">scRNA-seq</a></li>
+        <li><a href="skills/scatac.html">scATAC-seq</a></li>
+        <li><a href="skills/spatial.html">Spatial</a></li>
+        <li><a href="skills/tcr-bcr.html">scTCR/BCR</a></li>
+        <li><a href="skills/index.html">All 15 skills →</a></li>
       </ul>
     </div>
-    <div class="footer-col">
+    <div class="fcol">
       <h4>Docs</h4>
       <ul>
-        <li><a href="docs/tutorials/setup.html">Quick Start</a></li>
-        <li><a href="docs/tutorials/pbmc-demo.html">PBMC Tutorial</a></li>
-        <li><a href="docs/reference/skill-spec.html">SKILL.md Spec</a></li>
-        <li><a href="docs/reference/cli.html">CLI Reference</a></li>
-        <li><a href="docs/reference/api.html">API Reference</a></li>
-        <li><a href="CONTRIBUTING.md">Contributing</a></li>
+        <li><a href="tutorials/setup.html">Quick Start</a></li>
+        <li><a href="tutorials/pbmc-demo.html">PBMC Tutorial</a></li>
+        <li><a href="reference/cli.html">CLI Reference</a></li>
+        <li><a href="reference/skill-spec.html">SKILL.md Spec</a></li>
+        <li><a href="tutorials/build-skill.html">Build a Skill</a></li>
       </ul>
     </div>
-    <div class="footer-col">
+    <div class="fcol">
       <h4>Community</h4>
       <ul>
-        <li><a href="https://github.com/madhubioinformatics/omics-agent">GitHub</a></li>
-        <li><a href="https://github.com/madhubioinformatics/omics-agent/issues">Issues</a></li>
-        <li><a href="https://github.com/madhubioinformatics/omics-agent/discussions">Discussions</a></li>
-        <li><a href="https://github.com/madhubioinformatics/omics-agent/blob/main/CONTRIBUTING.md">Submit a Skill</a></li>
+        <li><a href="https://github.com/madhubioinformatics/OmicsAgent">GitHub</a></li>
+        <li><a href="https://github.com/madhubioinformatics/OmicsAgent/issues">Issues</a></li>
+        <li><a href="https://github.com/madhubioinformatics/OmicsAgent/discussions">Discussions</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 OmicsAgent · Built by <strong>Madhu Bioinformatics</strong> · MIT License · Research tool, not a medical device</span>
-    <div class="footer-badges">
+    <span>© 2026 Dr. Madhu Sudhana Saddala · University of California · MIT License · Not a medical device</span>
+    <div style="display:flex;gap:0.5rem">
       <span class="fbadge">Python 3.10+</span>
       <span class="fbadge">MIT</span>
       <span class="fbadge">37/37 tests ✓</span>
@@ -764,6 +272,5 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2re
     </div>
   </div>
 </footer>
-
 </body>
 </html>
