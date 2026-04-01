@@ -16,6 +16,20 @@
   <img src="https://img.shields.io/badge/tests-37%2F37-brightgreen"/>
 </p>
 
+<p align="center">
+  <a href="https://madhubioinformatics.github.io/OmicsAgent/demo.html">
+    <img src="https://img.shields.io/badge/Live_Demo-Click_to_Run-22d3ee?style=for-the-badge&logo=github"/>
+  </a>
+</p>
+
+---
+
+## 🎮 Interactive Demo
+
+**[▶ Click here to run the live pipeline demo](https://madhubioinformatics.github.io/OmicsAgent/demo.html)**
+
+Simulate all 15 omics skills running on PBMC data — watch the pipeline execute in real time, explore chat mode examples, and preview output file structures.
+
 ---
 
 ## 15 Omics Skills
@@ -60,6 +74,7 @@ python3 omics_agent.py --list          # list all skills
 ## Documentation
 
 📖 **Website:** https://madhubioinformatics.github.io/OmicsAgent/
+🎮 **Live Demo:** https://madhubioinformatics.github.io/OmicsAgent/demo.html
 
 ## Author
 
