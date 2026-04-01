@@ -1,0 +1,171 @@
+<svg width="680" height="680" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="bg" cx="50%" cy="48%" r="42%">
+    <stop offset="0%" stop-color="#0d1f3c"/>
+    <stop offset="100%" stop-color="#050b18"/>
+  </radialGradient>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+    <stop offset="0%"   stop-color="#22d3ee" stop-opacity="0.13"/>
+    <stop offset="70%"  stop-color="#6366f1" stop-opacity="0.05"/>
+    <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="coregrad" cx="50%" cy="50%" r="50%">
+    <stop offset="0%"   stop-color="#0f3460"/>
+    <stop offset="100%" stop-color="#050b18"/>
+  </radialGradient>
+</defs>
+
+<!-- Background -->
+<rect width="680" height="680" rx="24" fill="url(#bg)"/>
+
+<!-- Halo + orbit rings -->
+<circle cx="340" cy="300" r="230" fill="url(#halo)"/>
+<circle cx="340" cy="300" r="198" fill="none" stroke="#1e3a5f" stroke-width="0.6" stroke-dasharray="4 8"/>
+<circle cx="340" cy="300" r="158" fill="none" stroke="#162d4a" stroke-width="0.4"/>
+<circle cx="340" cy="300" r="72"  fill="none" stroke="#22d3ee" stroke-width="0.5" stroke-opacity="0.35"/>
+
+<!-- ── 15 omics spokes ── -->
+
+<!-- 0deg  scRNA-seq -->
+<line x1="340" y1="228" x2="340" y2="372" stroke="#22d3ee" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="340" cy="162" r="7"  fill="#22d3ee"/>
+<circle cx="340" cy="162" r="12" fill="none" stroke="#22d3ee" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="340" y="144" text-anchor="middle" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">scRNA-seq</text>
+
+<!-- 24deg scATAC-seq -->
+<line x1="340" y1="228" x2="368" y2="375" stroke="#818cf8" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="404" cy="179" r="7"  fill="#818cf8"/>
+<circle cx="404" cy="179" r="12" fill="none" stroke="#818cf8" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="420" y="167" text-anchor="start" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">scATAC-seq</text>
+
+<!-- 48deg Bulk epigenomics -->
+<line x1="340" y1="228" x2="393" y2="358" stroke="#a78bfa" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="445" cy="209" r="7"  fill="#a78bfa"/>
+<circle cx="445" cy="209" r="12" fill="none" stroke="#a78bfa" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="461" y="206" text-anchor="start" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">Bulk epigenomics</text>
+
+<!-- 72deg Spatial full -->
+<line x1="340" y1="228" x2="398" y2="336" stroke="#f472b6" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="457" cy="251" r="7"  fill="#f472b6"/>
+<circle cx="457" cy="251" r="12" fill="none" stroke="#f472b6" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="473" y="248" text-anchor="start" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">Spatial full</text>
+
+<!-- 96deg scTCR/BCR -->
+<line x1="340" y1="228" x2="376" y2="373" stroke="#fb7185" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="453" cy="316" r="7"  fill="#fb7185"/>
+<circle cx="453" cy="316" r="12" fill="none" stroke="#fb7185" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="469" y="313" text-anchor="start" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">scTCR/BCR</text>
+
+<!-- 120deg sc-Proteomics -->
+<line x1="340" y1="228" x2="352" y2="373" stroke="#fbbf24" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="417" cy="379" r="7"  fill="#fbbf24"/>
+<circle cx="417" cy="379" r="12" fill="none" stroke="#fbbf24" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="432" y="376" text-anchor="start" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">sc-Proteomics</text>
+
+<!-- 144deg Proteomics -->
+<line x1="340" y1="228" x2="318" y2="376" stroke="#f59e0b" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="363" cy="428" r="7"  fill="#f59e0b"/>
+<circle cx="363" cy="428" r="12" fill="none" stroke="#f59e0b" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="376" y="446" text-anchor="start" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">Proteomics</text>
+
+<!-- 168deg Metabolomics -->
+<line x1="340" y1="228" x2="307" y2="371" stroke="#34d399" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="305" cy="456" r="7"  fill="#34d399"/>
+<circle cx="305" cy="456" r="12" fill="none" stroke="#34d399" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="268" y="476" text-anchor="middle" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">Metabolomics</text>
+
+<!-- 192deg Metagenomics -->
+<line x1="340" y1="228" x2="303" y2="366" stroke="#10b981" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="252" cy="438" r="7"  fill="#10b981"/>
+<circle cx="252" cy="438" r="12" fill="none" stroke="#10b981" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="236" y="456" text-anchor="middle" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">Metagenomics</text>
+
+<!-- 216deg Integration -->
+<line x1="340" y1="228" x2="306" y2="357" stroke="#2dd4bf" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="220" cy="401" r="7"  fill="#2dd4bf"/>
+<circle cx="220" cy="401" r="12" fill="none" stroke="#2dd4bf" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="204" y="398" text-anchor="end" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">Integration</text>
+
+<!-- 240deg Transcriptomics -->
+<line x1="340" y1="228" x2="311" y2="342" stroke="#38bdf8" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="220" cy="350" r="7"  fill="#38bdf8"/>
+<circle cx="220" cy="350" r="12" fill="none" stroke="#38bdf8" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="204" y="347" text-anchor="end" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">Transcriptomics</text>
+
+<!-- 264deg Genomics -->
+<line x1="340" y1="228" x2="320" y2="320" stroke="#60a5fa" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="224" cy="290" r="7"  fill="#60a5fa"/>
+<circle cx="224" cy="290" r="12" fill="none" stroke="#60a5fa" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="208" y="287" text-anchor="end" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">Genomics</text>
+
+<!-- 288deg Spatial v1 -->
+<line x1="340" y1="228" x2="331" y2="300" stroke="#c4b5fd" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="255" cy="233" r="7"  fill="#c4b5fd"/>
+<circle cx="255" cy="233" r="12" fill="none" stroke="#c4b5fd" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="239" y="229" text-anchor="end" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">Spatial v1</text>
+
+<!-- 312deg CITE-seq/SCoPE-MS -->
+<line x1="340" y1="228" x2="339" y2="294" stroke="#e879f9" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="294" cy="181" r="7"  fill="#e879f9"/>
+<circle cx="294" cy="181" r="12" fill="none" stroke="#e879f9" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="278" y="167" text-anchor="end" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">CITE-seq / SCoPE-MS</text>
+
+<!-- 336deg Bulk RNA-seq -->
+<line x1="340" y1="228" x2="339" y2="308" stroke="#7dd3fc" stroke-width="0.7" stroke-opacity="0.22"/>
+<circle cx="316" cy="165" r="7"  fill="#7dd3fc"/>
+<circle cx="316" cy="165" r="12" fill="none" stroke="#7dd3fc" stroke-width="0.7" stroke-opacity="0.4"/>
+<text x="300" y="150" text-anchor="middle" font-family="monospace" font-size="10.5" font-weight="600" fill="#94a3b8">Bulk RNA-seq</text>
+
+<!-- ── CORE ── -->
+<circle cx="340" cy="300" r="58" fill="url(#coregrad)" stroke="#22d3ee" stroke-width="1" stroke-opacity="0.5"/>
+
+<!-- Hexagonal atom ring -->
+<g transform="translate(340,300)">
+  <polygon points="0,-34 29,-17 29,17 0,34 -29,17 -29,-17" fill="none" stroke="#22d3ee" stroke-width="1.2" stroke-opacity="0.6"/>
+  <circle cx="0"   cy="-34" r="3.5" fill="#22d3ee"/>
+  <circle cx="29"  cy="-17" r="3.5" fill="#6366f1"/>
+  <circle cx="29"  cy="17"  r="3.5" fill="#f472b6"/>
+  <circle cx="0"   cy="34"  r="3.5" fill="#34d399"/>
+  <circle cx="-29" cy="17"  r="3.5" fill="#f59e0b"/>
+  <circle cx="-29" cy="-17" r="3.5" fill="#a78bfa"/>
+  <line x1="-16" y1="-9"  x2="16" y2="-9"  stroke="#22d3ee" stroke-width="0.6" stroke-opacity="0.45"/>
+  <line x1="-16" y1="0"   x2="16" y2="0"   stroke="#22d3ee" stroke-width="0.6" stroke-opacity="0.45"/>
+  <line x1="-16" y1="9"   x2="16" y2="9"   stroke="#22d3ee" stroke-width="0.6" stroke-opacity="0.45"/>
+  <line x1="0" y1="-19"  x2="0"  y2="19"  stroke="#6366f1" stroke-width="0.6" stroke-opacity="0.45"/>
+  <circle cx="0" cy="0" r="5"  fill="#22d3ee"/>
+  <circle cx="0" cy="0" r="9"  fill="none" stroke="#22d3ee" stroke-width="0.6" stroke-opacity="0.4"/>
+</g>
+
+<!-- ── WORDMARK ── -->
+<text x="340" y="525" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="38" font-weight="700" letter-spacing="-1">
+  <tspan fill="#22d3ee">Omics</tspan><tspan fill="#f1f5f9">Agent</tspan><tspan font-size="22" fill="#6366f1" dy="-10">.ai</tspan>
+</text>
+
+<line x1="196" y1="540" x2="484" y2="540" stroke="#1e3a5f" stroke-width="0.8"/>
+
+<text x="340" y="558" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#475569" letter-spacing="3">THE COMPLETE MULTI-OMICS AI AGENT</text>
+
+<!-- stats pills -->
+<rect x="176" y="573" width="82" height="20" rx="10" fill="#0f2035" stroke="#1e3a5f" stroke-width="0.7"/>
+<text x="217" y="587" text-anchor="middle" font-family="monospace" font-size="9.5" fill="#22d3ee" letter-spacing="1">15 SKILLS</text>
+
+<rect x="266" y="573" width="90" height="20" rx="10" fill="#0f2035" stroke="#1e3a5f" stroke-width="0.7"/>
+<text x="311" y="587" text-anchor="middle" font-family="monospace" font-size="9.5" fill="#34d399" letter-spacing="1">37/37 TESTS</text>
+
+<rect x="364" y="573" width="72" height="20" rx="10" fill="#0f2035" stroke="#1e3a5f" stroke-width="0.7"/>
+<text x="400" y="587" text-anchor="middle" font-family="monospace" font-size="9.5" fill="#a78bfa" letter-spacing="1">MIT  v0.2</text>
+
+<!-- colour stripe -->
+<rect x="181" y="609" width="22" height="3" rx="1.5" fill="#22d3ee"/>
+<rect x="207" y="609" width="22" height="3" rx="1.5" fill="#818cf8"/>
+<rect x="233" y="609" width="22" height="3" rx="1.5" fill="#a78bfa"/>
+<rect x="259" y="609" width="22" height="3" rx="1.5" fill="#f472b6"/>
+<rect x="285" y="609" width="22" height="3" rx="1.5" fill="#fb7185"/>
+<rect x="311" y="609" width="22" height="3" rx="1.5" fill="#fbbf24"/>
+<rect x="337" y="609" width="22" height="3" rx="1.5" fill="#34d399"/>
+<rect x="363" y="609" width="22" height="3" rx="1.5" fill="#10b981"/>
+<rect x="389" y="609" width="22" height="3" rx="1.5" fill="#2dd4bf"/>
+<rect x="415" y="609" width="22" height="3" rx="1.5" fill="#60a5fa"/>
+<rect x="441" y="609" width="22" height="3" rx="1.5" fill="#c4b5fd"/>
+<rect x="467" y="609" width="22" height="3" rx="1.5" fill="#e879f9"/>
+</svg>
