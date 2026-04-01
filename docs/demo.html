@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Demo — OmicsAgent.ai</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#060c1a;color:#e2e8f0;font-family:'Segoe UI',Arial,sans-serif;padding:2rem}
+.wrap{max-width:900px;margin:0 auto}
+.back{display:inline-flex;align-items:center;gap:6px;color:#22d3ee;font-size:0.85rem;text-decoration:none;margin-bottom:1.5rem;border:1px solid #1e3a5f;padding:6px 14px;border-radius:6px}
+.back:hover{background:#0f1e35}
+h1{font-size:1.6rem;font-weight:800;margin-bottom:0.4rem}
+.sub{color:#94a3b8;font-size:0.9rem;margin-bottom:2rem}
+.demo-wrap{background:#0a1222;border:1px solid #1e3a5f;border-radius:16px;padding:1.5rem}
+.demo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:10px}
+.demo-title{font-size:1rem;font-weight:700;color:#22d3ee;font-family:monospace}
+.demo-subtitle{font-size:0.78rem;color:#94a3b8;margin-top:2px}
+.run-btn{background:#22d3ee;color:#060c1a;border:none;border-radius:8px;padding:0.5rem 1.4rem;font-size:0.88rem;font-weight:700;cursor:pointer;font-family:monospace}
+.run-btn:hover{background:#06b6d4}
+.run-btn:disabled{background:#1e3a5f;color:#475569;cursor:not-allowed}
+.reset-btn{background:transparent;border:1px solid #1e3a5f;color:#94a3b8;border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;cursor:pointer;margin-left:8px}
+.reset-btn:hover{border-color:#22d3ee;color:#22d3ee}
+.terminal{background:#020810;border:1px solid #1e3a5f;border-radius:10px;padding:1rem 1.2rem;font-family:monospace;font-size:0.78rem;line-height:1.9;min-height:130px;margin-bottom:1.2rem;overflow:hidden}
+.t-bar{display:flex;gap:6px;margin-bottom:10px}
+.tdot{width:10px;height:10px;border-radius:50%}
+.dr{background:#ff5f56}.dy{background:#ffbd2e}.dg{background:#27c93f}
+.tl{display:block}
+.skills-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.2rem}
+@media(max-width:600px){.skills-grid{grid-template-columns:repeat(3,1fr)}}
+.sp{background:#0f1e35;border:1px solid #1e3a5f;border-radius:8px;padding:8px 6px;text-align:center;transition:all 0.3s}
+.sp .ic{font-size:16px;display:block;margin-bottom:3px}
+.sp .nm{font-size:0.65rem;color:#94a3b8;font-family:monospace;line-height:1.2}
+.sp.running{border-color:#fbbf24;background:rgba(251,191,36,0.08)}
+.sp.running .nm{color:#fbbf24}
+.sp.done{border-color:#34d399;background:rgba(52,211,153,0.08)}
+.sp.done .nm{color:#34d399}
+.progress-wrap{background:#0f1e35;border:1px solid #1e3a5f;border-radius:10px;padding:1rem;margin-bottom:1.2rem}
+.pb-bg{background:#020810;border-radius:6px;height:8px;overflow:hidden;margin:8px 0}
+.pb{height:8px;border-radius:6px;background:#22d3ee;width:0%;transition:width 0.4s ease}
+.pl{display:flex;justify-content:space-between;font-size:0.75rem;color:#94a3b8;font-family:monospace}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.2rem}
+.sb{background:#0f1e35;border:1px solid #1e3a5f;border-radius:8px;padding:10px;text-align:center}
+.sn{font-size:1.3rem;font-weight:700;color:#e2e8f0;font-family:monospace;display:block}
+.sl{font-size:0.65rem;color:#475569;text-transform:uppercase;letter-spacing:0.06em}
+.tab-row{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+.tab{padding:5px 14px;border-radius:20px;border:1px solid #1e3a5f;font-size:0.78rem;cursor:pointer;color:#94a3b8;background:transparent;font-family:monospace}
+.tab.active{background:#22d3ee;color:#060c1a;border-color:#22d3ee;font-weight:700}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.chat-wrap{background:#0f1e35;border:1px solid #1e3a5f;border-radius:10px;padding:1rem}
+.cmsg{margin-bottom:10px}
+.cyou{background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2);border-radius:8px;padding:8px 12px;font-size:0.82rem}
+.cagt{background:#020810;border:1px solid #1e3a5f;border-radius:8px;padding:8px 12px;font-size:0.82rem}
+.clbl{font-size:0.65rem;font-weight:700;margin-bottom:4px;font-family:monospace;letter-spacing:0.05em}
+.cyou .clbl{color:#22d3ee}
+.cagt .clbl{color:#818cf8}
+.stag{display:inline-block;background:rgba(129,140,248,0.15);color:#818cf8;font-size:0.65rem;padding:1px 6px;border-radius:4px;font-family:monospace;margin-right:4px}
+.file-tree{background:#020810;border:1px solid #1e3a5f;border-radius:8px;padding:12px 14px;font-family:monospace;font-size:0.75rem;line-height:2;margin-bottom:1rem}
+.fd{color:#22d3ee}.fp{color:#f472b6}.fc{color:#34d399}.fs{color:#fbbf24}.fy{color:#818cf8}
+.chart-area{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+@media(max-width:600px){.chart-area{grid-template-columns:1fr}}
+.mc{background:#0f1e35;border:1px solid #1e3a5f;border-radius:8px;padding:10px}
+.cl{font-size:0.7rem;color:#94a3b8;font-family:monospace;margin-bottom:8px}
+.br{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.bn{font-size:0.65rem;color:#475569;width:82px;text-align:right;font-family:monospace}
+.bb{flex:1;background:#020810;border-radius:3px;height:10px;overflow:hidden}
+.bf{height:10px;border-radius:3px}
+.scatter{display:flex;flex-wrap:wrap;gap:3px;padding:4px}
+.dc{width:8px;height:8px;border-radius:50%;opacity:0.85}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="index.html">&#8592; Back to OmicsAgent.ai</a>
+<h1>&#129514; OmicsAgent.ai &mdash; Interactive Pipeline Demo</h1>
+<p class="sub">Simulate all 15 omics skills on PBMC data. Click Run Demo to watch the pipeline execute live.</p>
+
+<div class="demo-wrap">
+  <div class="demo-header">
+    <div>
+      <div class="demo-title">Live Pipeline Simulator</div>
+      <div class="demo-subtitle">15 skills &middot; PBMC Healthy vs Sepsis &middot; SHA-256 reproducible</div>
+    </div>
+    <div>
+      <button class="run-btn" id="runBtn" onclick="startDemo()">&#9654; Run Demo</button>
+      <button class="reset-btn" onclick="resetDemo()">Reset</button>
+    </div>
+  </div>
+
+  <div class="tab-row">
+    <button class="tab active" onclick="showTab('pipeline',this)">Pipeline</button>
+    <button class="tab" onclick="showTab('chat',this)">Chat Mode</button>
+    <button class="tab" onclick="showTab('outputs',this)">Outputs</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-pipeline">
+    <div class="terminal">
+      <div class="t-bar"><div class="tdot dr"></div><div class="tdot dy"></div><div class="tdot dg"></div></div>
+      <div id="term">
+        <span class="tl" style="color:#34d399">$ </span><span class="tl" style="color:#475569">python3 omics_agent.py --demo</span><br>
+        <span class="tl" style="color:#475569">Press Run Demo to start...</span>
+      </div>
+    </div>
+    <div class="skills-grid">
+      <div class="sp" id="sp0"><span class="ic">&#129514;</span><span class="nm">Genomics</span></div>
+      <div class="sp" id="sp1"><span class="ic">&#128202;</span><span class="nm">Bulk RNA</span></div>
+      <div class="sp" id="sp2"><span class="ic">&#128300;</span><span class="nm">scRNA-seq</span></div>
+      <div class="sp" id="sp3"><span class="ic">&#129514;</span><span class="nm">Proteomics</span></div>
+      <div class="sp" id="sp4"><span class="ic">&#9879;&#65039;</span><span class="nm">Metabolomics</span></div>
+      <div class="sp" id="sp5"><span class="ic">&#127956;</span><span class="nm">Bulk ATAC</span></div>
+      <div class="sp" id="sp6"><span class="ic">&#128506;</span><span class="nm">Spatial v1</span></div>
+      <div class="sp" id="sp7"><span class="ic">&#129440;</span><span class="nm">Metagenomics</span></div>
+      <div class="sp" id="sp8"><span class="ic">&#128142;</span><span class="nm">sc-Proteomics</span></div>
+      <div class="sp" id="sp9"><span class="ic">&#128256;</span><span class="nm">Integration</span></div>
+      <div class="sp" id="sp10"><span class="ic">&#127919;</span><span class="nm">scATAC-seq</span></div>
+      <div class="sp" id="sp11"><span class="ic">&#9968;&#65039;</span><span class="nm">Bulk Epigen.</span></div>
+      <div class="sp" id="sp12"><span class="ic">&#127760;</span><span class="nm">Spatial Full</span></div>
+      <div class="sp" id="sp13"><span class="ic">&#128279;</span><span class="nm">TCR/BCR</span></div>
+      <div class="sp" id="sp14"><span class="ic">&#128301;</span><span class="nm">sc-Prot Full</span></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="pl"><span id="plbl">Ready to run</span><span id="ppct">0 / 15</span></div>
+      <div class="pb-bg"><div class="pb" id="pbar"></div></div>
+    </div>
+    <div class="stats-row">
+      <div class="sb"><span class="sn" id="sDone">0</span><span class="sl">Skills done</span></div>
+      <div class="sb"><span class="sn" id="sFigs">0</span><span class="sl">Figures</span></div>
+      <div class="sb"><span class="sn" id="sTabs">0</span><span class="sl">Tables</span></div>
+      <div class="sb"><span class="sn" id="sTime">0s</span><span class="sl">Elapsed</span></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-chat">
+    <div class="chat-wrap">
+      <div class="cmsg"><div class="cyou"><div class="clbl">YOU</div>Cluster my PBMC scRNA-seq and identify exhausted CD8 T cells</div></div>
+      <div class="cmsg"><div class="cagt"><div class="clbl">OMICSAGENT.AI <span class="stag">scrna</span><span class="stag">scTCR_BCR</span></div>Running QC &rarr; normalization &rarr; UMAP &rarr; Leiden clustering...<br>10 cell types found. Exhausted CD8 T: TOX+, NR4A1+, PDCD1+, LAG3+ (8% of PBMC). Report &rarr; output/scrna_report/</div></div>
+      <div class="cmsg"><div class="cyou"><div class="clbl">YOU</div>Find TFs active in those exhausted cells using ATAC-seq</div></div>
+      <div class="cmsg"><div class="cagt"><div class="clbl">OMICSAGENT.AI <span class="stag">scatac</span></div>TF-IDF + LSI &rarr; ChromVAR TF deviations (JASPAR 2022)...<br>Top TFs: TOX (z=4.8), NR4A1 (z=4.2), NFATC1 (z=3.9), PDCD1 (z=3.1). Report &rarr; output/scatac_report/</div></div>
+      <div class="cmsg"><div class="cyou"><div class="clbl">YOU</div>Integrate RNA, ATAC and proteomics with MOFA+</div></div>
+      <div class="cmsg"><div class="cagt"><div class="clbl">OMICSAGENT.AI <span class="stag">integration</span></div>MOFA+ latent factor analysis (3 layers, 40 samples)...<br>Factor 1 (18% var): Exhaustion — TOX/NR4A1 in ATAC, PD-1/LAG3 in RNA, PD-1/TIM-3 in protein.</div></div>
+    </div>
+    <p style="margin-top:10px;font-size:0.78rem;color:#475569;font-family:monospace">Run locally: <span style="color:#22d3ee">python3 omics_agent.py --chat</span></p>
+  </div>
+
+  <div class="tab-panel" id="tab-outputs">
+    <div style="font-size:0.8rem;font-weight:700;color:#22d3ee;font-family:monospace;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em">Output file tree</div>
+    <div class="file-tree">
+      <span class="fd">output/</span><br>
+      &nbsp;&nbsp;<span class="fd">scrna_report/</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="fp">figures/umap.png &nbsp; dotplot.png &nbsp; qc.png</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="fc">tables/markers.csv</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="fs">commands.sh</span> &nbsp;<span class="fy">environment.yml</span> &nbsp;<span class="fc">checksums.sha256</span><br>
+      &nbsp;&nbsp;<span class="fd">scatac_report/ &nbsp; spatial_full_report/ &nbsp; scTCR_BCR_report/</span><br>
+      &nbsp;&nbsp;<span class="fd">... 11 more skill report folders ...</span>
+    </div>
+    <div style="font-size:0.8rem;font-weight:700;color:#22d3ee;font-family:monospace;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em">Cell type composition (scRNA-seq)</div>
+    <div class="chart-area">
+      <div class="mc">
+        <div class="cl">PBMC 3,000 cells &mdash; 10 cell types</div>
+        <div class="br"><span class="bn">CD4 T</span><div class="bb"><div class="bf" style="width:62%;background:#22d3ee"></div></div><span style="font-size:0.65rem;color:#475569;font-family:monospace;min-width:28px">28%</span></div>
+        <div class="br"><span class="bn">Mono Class.</span><div class="bb"><div class="bf" style="width:40%;background:#818cf8"></div></div><span style="font-size:0.65rem;color:#475569;font-family:monospace;min-width:28px">18%</span></div>
+        <div class="br"><span class="bn">CD8 T</span><div class="bb"><div class="bf" style="width:31%;background:#f472b6"></div></div><span style="font-size:0.65rem;color:#475569;font-family:monospace;min-width:28px">14%</span></div>
+        <div class="br"><span class="bn">NK cell</span><div class="bb"><div class="bf" style="width:22%;background:#34d399"></div></div><span style="font-size:0.65rem;color:#475569;font-family:monospace;min-width:28px">10%</span></div>
+        <div class="br"><span class="bn">B cell</span><div class="bb"><div class="bf" style="width:18%;background:#fbbf24"></div></div><span style="font-size:0.65rem;color:#475569;font-family:monospace;min-width:28px">8%</span></div>
+        <div class="br"><span class="bn">Exhausted CD8</span><div class="bb"><div class="bf" style="width:18%;background:#fb7185"></div></div><span style="font-size:0.65rem;color:#475569;font-family:monospace;min-width:28px">8%</span></div>
+        <div class="br"><span class="bn">Other</span><div class="bb"><div class="bf" style="width:28%;background:#64748b"></div></div><span style="font-size:0.65rem;color:#475569;font-family:monospace;min-width:28px">14%</span></div>
+      </div>
+      <div class="mc">
+        <div class="cl">UMAP clusters (simulated)</div>
+        <div class="scatter" id="umap"></div>
+      </div>
+    </div>
+    <p style="font-size:0.75rem;color:#475569;font-family:monospace">Verify: <span style="color:#34d399">sha256sum -c output/scrna_report/checksums.sha256</span></p>
+  </div>
+</div>
+</div>
+<script>
+const SK=[
+  {n:"Genomics",m:"Variant calling + PCA",f:2,t:1},
+  {n:"Transcriptomics",m:"DESeq2 DE analysis",f:3,t:1},
+  {n:"scRNA-seq",m:"3000 cells, 10 clusters",f:4,t:1},
+  {n:"Proteomics",m:"300 proteins, limma DE",f:2,t:1},
+  {n:"Metabolomics",m:"PQN norm, HMDB annot.",f:2,t:1},
+  {n:"Bulk ATAC",m:"MACS3, DiffBind",f:3,t:1},
+  {n:"Spatial v1",m:"Moran I SVGs",f:2,t:1},
+  {n:"Metagenomics",m:"Shannon, Bray-Curtis",f:3,t:1},
+  {n:"sc-Proteomics",m:"CLR, WNN embedding",f:2,t:2},
+  {n:"Integration",m:"MOFA+ 5 factors",f:3,t:2},
+  {n:"scATAC-seq",m:"ChromVAR, JASPAR 2022",f:6,t:2},
+  {n:"Bulk Epigen.",m:"6 marks, deepTools",f:4,t:1},
+  {n:"Spatial Full",m:"4 platforms, RCTD",f:5,t:3},
+  {n:"scTCR/BCR",m:"Clonotypes, CDR3, SHM",f:7,t:2},
+  {n:"sc-Prot Full",m:"CITE-seq + SCoPE-MS",f:4,t:2}
+];
+let run=false,done=0,figs=0,tabs=0,sec=0,tmr,stmr;
+function add(h){const t=document.getElementById('term');const s=document.createElement('span');s.innerHTML=h+'<br>';t.appendChild(s);}
+function startDemo(){
+  if(run)return;run=true;
+  document.getElementById('runBtn').disabled=true;
+  done=0;figs=0;tabs=0;sec=0;
+  document.getElementById('term').innerHTML='';
+  add('<span style="color:#34d399">$ </span><span style="color:#e2e8f0">python3 omics_agent.py --demo</span>');
+  add('<span style="color:#22d3ee">Running 15 omics skills on PBMC data...</span>');
+  tmr=setInterval(()=>{sec++;document.getElementById('sTime').textContent=sec+'s';},1000);
+  next(0);
+}
+function next(i){
+  if(i>=SK.length){finish();return;}
+  const s=SK[i];
+  document.getElementById('sp'+i).className='sp running';
+  document.getElementById('plbl').textContent='Running: '+s.n;
+  document.getElementById('ppct').textContent=i+' / 15';
+  document.getElementById('pbar').style.width=(i/15*100).toFixed(0)+'%';
+  add('<span style="color:#79c0ff">  Running '+s.n+'... '+s.m+'</span>');
+  stmr=setTimeout(()=>{
+    document.getElementById('sp'+i).className='sp done';
+    done++;figs+=s.f;tabs+=s.t;
+    add('<span style="color:#34d399">  Done: '+s.n+' ('+s.f+' figures, '+s.t+' tables)</span>');
+    document.getElementById('sDone').textContent=done;
+    document.getElementById('sFigs').textContent=figs;
+    document.getElementById('sTabs').textContent=tabs;
+    document.getElementById('ppct').textContent=done+' / 15';
+    document.getElementById('pbar').style.width=(done/15*100).toFixed(0)+'%';
+    next(i+1);
+  },400+Math.random()*600);
+}
+function finish(){
+  clearInterval(tmr);run=false;
+  document.getElementById('plbl').textContent='Complete!';
+  document.getElementById('ppct').textContent='15 / 15';
+  document.getElementById('pbar').style.width='100%';
+  add('<span style="color:#22d3ee">15/15 skills complete! Figures:'+figs+' Tables:'+tabs+' Time:'+sec+'s</span>');
+  add('<span style="color:#475569">Outputs saved with SHA-256 checksums.</span>');
+  document.getElementById('runBtn').disabled=false;
+  document.getElementById('runBtn').textContent='Run Again';
+  buildUmap();
+}
+function buildUmap(){
+  const c=['#22d3ee','#818cf8','#f472b6','#34d399','#fbbf24','#fb7185','#a78bfa','#2dd4bf','#f59e0b','#60a5fa'];
+  const el=document.getElementById('umap');el.innerHTML='';
+  for(let i=0;i<130;i++){const d=document.createElement('div');d.className='dc';d.style.background=c[Math.floor(Math.random()*c.length)];d.style.opacity=(0.5+Math.random()*0.5).toFixed(2);el.appendChild(d);}
+}
+function resetDemo(){
+  clearInterval(tmr);clearTimeout(stmr);run=false;done=0;figs=0;tabs=0;sec=0;
+  document.getElementById('runBtn').disabled=false;
+  document.getElementById('runBtn').textContent='&#9654; Run Demo';
+  document.getElementById('pbar').style.width='0%';
+  document.getElementById('plbl').textContent='Ready to run';
+  document.getElementById('ppct').textContent='0 / 15';
+  ['sDone','sFigs','sTabs'].forEach(id=>document.getElementById(id).textContent='0');
+  document.getElementById('sTime').textContent='0s';
+  for(let i=0;i<15;i++)document.getElementById('sp'+i).className='sp';
+  document.getElementById('term').innerHTML='<span style="color:#475569">Press Run Demo to start...</span>';
+}
+function showTab(name,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+buildUmap();
+</script>
+</body>
+</html>
